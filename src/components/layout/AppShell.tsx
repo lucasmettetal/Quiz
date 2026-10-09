@@ -43,6 +43,7 @@ function UserMenu({ compact = false }: { compact?: boolean }) {
       align={compact ? 'end' : 'start'}
       className={compact ? '' : 'w-full'}
       items={[
+        ...(compact ? [{ label: t('nav.favorites'), icon: <Star />, onSelect: () => navigate('/app/favorites') }] : []),
         { label: t('nav.settings'), icon: <Settings />, onSelect: () => navigate('/app/settings') },
         { label: t('nav.joinGame'), icon: <Gamepad2 />, onSelect: () => window.open('/join', '_blank', 'noopener') },
         {

@@ -98,7 +98,7 @@ export function LandingPage() {
               {t('landing.heroTitleAccent')}
             </span>
           </h1>
-          <p className="mt-8 max-w-xl text-lg leading-relaxed text-fg-muted sm:text-xl">{t('landing.heroLead')}</p>
+          <p className="mt-8 hidden max-w-xl text-xl leading-relaxed text-fg-muted lg:block">{t('landing.heroLead')}</p>
           <div className="mt-8 hidden flex-wrap gap-3 lg:flex">
             <ButtonLink to={isCreator ? '/app' : '/auth/signup'} size="xl" icon={<Plus className="size-6" />}>
               {t('landing.ctaCreate')}
@@ -122,7 +122,8 @@ export function LandingPage() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-3 sm:flex-row lg:hidden">
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:hidden">
+          <p className="w-full text-lg leading-relaxed text-fg-muted">{t('landing.heroLead')}</p>
           <ButtonLink to={isCreator ? '/app' : '/auth/signup'} size="lg" icon={<Plus className="size-5" />}>
             {t('landing.ctaCreate')}
           </ButtonLink>

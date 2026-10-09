@@ -37,8 +37,15 @@ export const router = createBrowserRouter([
             <AppShell />
           </RequireCreator>
         ),
-        children: [{ index: true, lazy: page(() => import('@/pages/app/DashboardPage'), (m) => m.DashboardPage) }],
+        children: [
+          { index: true, lazy: page(() => import('@/pages/app/DashboardPage'), (m) => m.DashboardPage) },
+          { path: 'quizzes', lazy: page(() => import('@/pages/app/QuizzesPage'), (m) => m.QuizzesPage) },
+          { path: 'explore', lazy: page(() => import('@/pages/app/ExplorePage'), (m) => m.ExplorePage) },
+          { path: 'favorites', lazy: page(() => import('@/pages/app/FavoritesPage'), (m) => m.FavoritesPage) },
+          { path: 'settings', lazy: page(() => import('@/pages/app/SettingsPage'), (m) => m.SettingsPage) },
+        ],
       },
+      { path: '/quiz/:quizId', lazy: page(() => import('@/pages/QuizDetailPage'), (m) => m.QuizDetailPage) },
       { path: '*', lazy: page(() => import('@/pages/NotFoundPage'), (m) => m.NotFoundPage) },
     ],
   },
