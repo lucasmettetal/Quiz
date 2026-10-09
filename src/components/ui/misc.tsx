@@ -20,9 +20,9 @@ export function Badge({
 }) {
   const tones = {
     neutral: 'bg-surface-2 text-fg-muted',
-    primary: 'bg-primary-soft text-primary',
-    success: 'bg-success-soft text-success',
-    danger: 'bg-danger-soft text-danger',
+    primary: 'bg-primary-soft text-primary-ink',
+    success: 'bg-success-soft text-success-ink',
+    danger: 'bg-danger-soft text-danger-ink',
     ink: 'bg-ink text-paper dark:bg-paper dark:text-ink',
   }
   return (

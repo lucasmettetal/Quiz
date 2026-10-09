@@ -122,7 +122,7 @@ export function AppShell() {
                       isActive ? 'scale-y-100' : 'scale-y-0',
                     )}
                   />
-                  <Icon className={cn('size-5 transition-transform duration-200', isActive && '-rotate-6 text-primary')} />
+                  <Icon className={cn('size-5 transition-transform duration-200', isActive && '-rotate-6 text-primary-ink')} />
                   {t(label)}
                 </>
               )}
@@ -188,7 +188,7 @@ function MobileNavItem({ to, label, icon: Icon, end }: (typeof NAV)[number]) {
       to={to}
       end={end}
       className={({ isActive }) =>
-        cn('flex flex-col items-center gap-0.5 py-2 text-[11px] font-semibold', isActive ? 'text-primary' : 'text-fg-muted')
+        cn('flex flex-col items-center gap-0.5 py-2 text-[11px] font-semibold', isActive ? 'text-primary-ink' : 'text-fg-muted')
       }
     >
       <Icon className="size-5" />

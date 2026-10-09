@@ -14,7 +14,7 @@ export function Spinner({ className, label }: { className?: string; label?: stri
 
 export function FullPageSpinner({ label }: { label: string }) {
   return (
-    <div className="grid min-h-dvh place-items-center bg-bg text-primary">
+    <div className="grid min-h-dvh place-items-center bg-bg text-primary-ink">
       <Spinner className="size-10" label={label} />
     </div>
   )

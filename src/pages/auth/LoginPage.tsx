@@ -45,7 +45,7 @@ export function LoginPage() {
       footer={
         <>
           {t('auth.noAccount')}{' '}
-          <Link className="font-semibold text-primary hover:underline" to={`/auth/signup${params.size ? `?${params}` : ''}`}>
+          <Link className="font-semibold text-primary-ink hover:underline" to={`/auth/signup${params.size ? `?${params}` : ''}`}>
             {t('auth.signup')}
           </Link>
         </>
@@ -74,7 +74,7 @@ export function LoginPage() {
           {t('auth.forgotLink')}
         </Link>
         {formError && (
-          <p role="alert" className="rounded-md bg-danger-soft px-3 py-2 text-sm font-medium text-danger">
+          <p role="alert" className="rounded-md bg-danger-soft px-3 py-2 text-sm font-medium text-danger-ink">
             {formError}
           </p>
         )}

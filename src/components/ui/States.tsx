@@ -55,7 +55,7 @@ export function ErrorState({
   const appError = toAppError(error)
   return (
     <div role="alert" className={cn('flex flex-col items-center px-6 py-14 text-center', className)}>
-      <div className="mb-5 grid size-16 rotate-3 place-items-center rounded-md border-2 border-edge bg-danger-soft text-danger">
+      <div className="mb-5 grid size-16 rotate-3 place-items-center rounded-md border-2 border-edge bg-danger-soft text-danger-ink">
         {appError.code === 'NETWORK' ? <WifiOff className="size-7" /> : <span className="font-display text-3xl font-black">!</span>}
       </div>
       <h2 className="text-xl font-bold">{title ?? t('errors.title')}</h2>

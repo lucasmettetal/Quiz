@@ -85,7 +85,7 @@ export function Menu({ trigger, items, align = 'end', className }: MenuProps) {
               className={cn(
                 'flex w-full items-center gap-2.5 rounded-sm px-3 py-2 text-left text-sm font-medium outline-none',
                 'hover:bg-surface-2 focus-visible:bg-surface-2 disabled:opacity-40',
-                item.tone === 'danger' ? 'text-danger' : 'text-fg',
+                item.tone === 'danger' ? 'text-danger-ink' : 'text-fg',
               )}
             >
               {item.icon && <span className="text-fg-subtle [&>svg]:size-4">{item.icon}</span>}

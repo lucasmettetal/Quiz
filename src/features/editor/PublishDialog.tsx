@@ -66,7 +66,7 @@ export function PublishDialog({ open, onClose, flush }: { open: boolean; onClose
       <div className="flex flex-col gap-4">
         <VisibilityPicker value={visibility} onChange={setVisibility} />
         {(blocker || error) && (
-          <p role="alert" className="flex items-start gap-2 rounded-md bg-danger-soft px-3 py-2 text-sm font-medium text-danger">
+          <p role="alert" className="flex items-start gap-2 rounded-md bg-danger-soft px-3 py-2 text-sm font-medium text-danger-ink">
             <AlertTriangle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
             {error ?? blocker}
           </p>

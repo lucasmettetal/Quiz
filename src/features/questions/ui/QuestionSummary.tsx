@@ -41,7 +41,7 @@ function AnswersPreview({ question }: { question: Question }) {
               <li key={o.id} className={cn('flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm', correct ? 'bg-success-soft font-semibold' : 'bg-surface-2')}>
                 <span className="font-display font-bold text-fg-subtle">{answerSlot(i).letter}</span>
                 <span className="flex-1">{o.text}</span>
-                {correct && <Check className="size-4 text-success" aria-label={t('host.correctAnswer')} />}
+                {correct && <Check className="size-4 text-success-ink" aria-label={t('host.correctAnswer')} />}
               </li>
             )
           })}
@@ -50,7 +50,7 @@ function AnswersPreview({ question }: { question: Question }) {
     case 'true_false':
       return (
         <p className="mt-3 inline-flex items-center gap-1.5 rounded-sm bg-success-soft px-2 py-1 text-sm font-semibold">
-          <Check className="size-4 text-success" aria-hidden="true" />
+          <Check className="size-4 text-success-ink" aria-hidden="true" />
           {question.content.correct ? t('questionTypes.trueFalse.true') : t('questionTypes.trueFalse.false')}
         </p>
       )

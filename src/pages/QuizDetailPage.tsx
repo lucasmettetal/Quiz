@@ -112,7 +112,7 @@ export function QuizDetailPage() {
                   <Button
                     variant="ghost"
                     aria-pressed={isFavorite}
-                    icon={<Star className={isFavorite ? 'size-4 fill-amber text-amber-deep' : 'size-4'} />}
+                    icon={<Star className={isFavorite ? 'size-4 fill-amber text-warning-ink' : 'size-4'} />}
                     onClick={() => favorite.mutate({ id: quizId, favorite: !isFavorite })}
                   >
                     {isFavorite ? t('quizzes.unfavorite') : t('quizzes.favorite')}

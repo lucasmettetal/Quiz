@@ -25,7 +25,7 @@ export const COLOR_CLASSES: Record<PaletteColor, ColorClasses> = {
   vermilion: { bg: 'bg-vermilion', deep: 'bg-vermilion-deep', on: 'text-white', text: 'text-vermilion', patternInk: 'text-vermilion-deep' },
   cobalt: { bg: 'bg-cobalt', deep: 'bg-cobalt-deep', on: 'text-white', text: 'text-cobalt', patternInk: 'text-cobalt-deep' },
   lime: { bg: 'bg-lime', deep: 'bg-lime-deep', on: 'text-ink', text: 'text-lime-deep', patternInk: 'text-lime-deep' },
-  amber: { bg: 'bg-amber', deep: 'bg-amber-deep', on: 'text-ink', text: 'text-amber-deep', patternInk: 'text-amber-deep' },
+  amber: { bg: 'bg-amber', deep: 'bg-amber-deep', on: 'text-ink', text: 'text-warning-ink', patternInk: 'text-amber-deep' },
   teal: { bg: 'bg-teal', deep: 'bg-teal-deep', on: 'text-white', text: 'text-teal', patternInk: 'text-teal-deep' },
   orchid: { bg: 'bg-orchid', deep: 'bg-orchid-deep', on: 'text-white', text: 'text-orchid', patternInk: 'text-orchid-deep' },
 }

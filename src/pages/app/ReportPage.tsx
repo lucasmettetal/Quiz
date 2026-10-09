@@ -100,7 +100,7 @@ function QuestionReport({ question, stats, answers, playerCount }: { question: R
               </span>
               <Bar ratio={b.count / max} className={questionTypes[question.type].graded ? (b.correct ? 'bg-success' : 'bg-fg-subtle') : 'bg-amber'} />
               <span className="w-8 text-right font-semibold tabular">{b.count}</span>
-              <span className="w-5">{b.correct && questionTypes[question.type].graded && <Check className="size-4 text-success" aria-label={t('host.correctAnswer')} />}</span>
+              <span className="w-5">{b.correct && questionTypes[question.type].graded && <Check className="size-4 text-success-ink" aria-label={t('host.correctAnswer')} />}</span>
             </li>
           ))}
         </ul>

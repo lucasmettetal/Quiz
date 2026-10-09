@@ -164,9 +164,6 @@ export const en: Messages = {
     shareLink: 'Quiz link',
     favorite: 'Add to favorites',
     unfavorite: 'Remove from favorites',
-    lastPlayed: 'Played {when}',
-    neverPlayed: 'Never played',
-    cannotLaunch: 'This quiz has incomplete questions. Open the editor to fix them.',
   },
   explore: {
     title: 'Explore',
@@ -209,7 +206,6 @@ export const en: Messages = {
     showAnswers: 'Show answers',
     notFoundTitle: 'Quiz not found',
     notFoundText: "This quiz doesn't exist, was deleted or isn't shared with you.",
-    forkedFrom: 'Inspired by another quiz',
     playedTimes: { one: 'Played {count} time', other: 'Played {count} times' },
     signInToLaunch: 'Sign in to launch or duplicate this quiz.',
   },
@@ -310,12 +306,10 @@ export const en: Messages = {
     categoryCollect: 'Collect',
     pickerTitle: 'Which question type?',
     pickerLead: 'You can change it later.',
-    comingSoon: 'Soon',
     quiz: { name: 'Quiz', description: '2 to 6 answers, one or more correct.' },
     true_false: { name: 'True or false', description: 'Two choices, one truth.' },
     text: { name: 'Typed answer', description: 'Players type their answer.' },
     poll: { name: 'Poll', description: 'No wrong answer: gather opinions.' },
-    upcoming: { order: 'Put in order', slider: 'Slider', wordcloud: 'Word cloud' },
     quizEditor: {
       option: 'Answer {letter}',
       optionPlaceholder: 'Add an answer',
@@ -384,7 +378,6 @@ export const en: Messages = {
     notFoundText: "This game doesn't exist or you are not its host.",
     launching: 'Launching…',
     textAnswersTitle: 'Answers given',
-    shownToPlayers: 'Shown on phones',
     correctCount: '{count} correct out of {total}',
   },
   player: {
@@ -436,9 +429,7 @@ export const en: Messages = {
     kickedText: 'The host removed you from this game.',
     hostAway: 'The host disconnected — the game resumes when they are back.',
     reconnecting: 'Reconnecting…',
-    lateJoin: 'You joined mid-game: you play from the next question.',
     selectAll: 'Several answers possible',
-    tapToAnswer: 'Tap your answer',
   },
   import: {
     title: 'Import a quiz',

@@ -41,7 +41,7 @@ export function VisibilityPicker({ value, onChange }: { value: Visibility; onCha
               active ? 'border-edge bg-primary-soft' : 'border-line hover:border-fg-subtle',
             )}
           >
-            <Icon className={cn('mt-0.5 size-5 shrink-0', active ? 'text-primary' : 'text-fg-subtle')} aria-hidden="true" />
+            <Icon className={cn('mt-0.5 size-5 shrink-0', active ? 'text-primary-ink' : 'text-fg-subtle')} aria-hidden="true" />
             <span>
               <span className="block text-sm font-bold">{t(`quizzes.visibility.${v}`)}</span>
               <span className="block text-xs text-fg-muted">{hints[v]}</span>
@@ -86,7 +86,7 @@ export function ShareQuizDialog({ quiz, open, onClose }: { quiz: Quiz; open: boo
         <div className="flex flex-col gap-4">
           <VisibilityPicker value={visibility} onChange={setVisibility} />
           {error && (
-            <p role="alert" className="rounded-md bg-danger-soft px-3 py-2 text-sm font-medium text-danger">
+            <p role="alert" className="rounded-md bg-danger-soft px-3 py-2 text-sm font-medium text-danger-ink">
               {error}
             </p>
           )}

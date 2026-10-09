@@ -47,7 +47,7 @@ export function MediaField({ value, onChange, compact, label }: MediaFieldProps)
   }
 
   const fileInput = (
-    <input ref={input} type="file" accept="image/png,image/jpeg,image/webp,image/gif" className="sr-only" tabIndex={-1} onChange={(e) => {
+    <input ref={input} type="file" aria-label={label ?? t('editor.mediaAdd')} accept="image/png,image/jpeg,image/webp,image/gif" className="sr-only" tabIndex={-1} onChange={(e) => {
       void handleFile(e.target.files?.[0])
       e.target.value = ''
     }} />
@@ -74,7 +74,7 @@ export function MediaField({ value, onChange, compact, label }: MediaFieldProps)
             className="mx-auto w-full max-w-xl rounded-sm border-0 bg-transparent px-1 text-center text-xs text-fg-muted placeholder:text-fg-subtle focus:bg-surface focus:outline-none"
           />
         )}
-        {error && <p role="alert" className="text-center text-sm text-danger">{error}</p>}
+        {error && <p role="alert" className="text-center text-sm text-danger-ink">{error}</p>}
         {fileInput}
       </div>
     )
@@ -98,11 +98,11 @@ export function MediaField({ value, onChange, compact, label }: MediaFieldProps)
           dragOver ? 'border-cobalt bg-cobalt/5' : 'border-line hover:border-fg-subtle hover:bg-surface/60',
         )}
       >
-        {uploading ? <Spinner className="size-6 text-primary" /> : <ImagePlus className="size-6 text-fg-subtle" aria-hidden="true" />}
+        {uploading ? <Spinner className="size-6 text-primary-ink" /> : <ImagePlus className="size-6 text-fg-subtle" aria-hidden="true" />}
         <span className="text-sm font-semibold">{uploading ? t('editor.mediaUploading') : (label ?? t('editor.mediaAdd'))}</span>
         {!compact && <span className="text-xs text-fg-subtle">{t('editor.mediaHint')}</span>}
       </button>
-      {error && <p role="alert" className="text-center text-sm text-danger">{error}</p>}
+      {error && <p role="alert" className="text-center text-sm text-danger-ink">{error}</p>}
       {fileInput}
     </div>
   )

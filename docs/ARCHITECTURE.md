@@ -113,7 +113,7 @@ src/
 ## 7. Design system
 
 - **Nom & idée** : *Tilt* — le déclic de la compréhension, et le flipper. Langage graphique : blocs **inclinés**, ombres **portées dures** (pas floues), **motifs** (rayures, points, grille, vagues, zigzag, damier).
-- **Couleurs** : encre `#17142B`, papier `#FAF6EE`, primaire *vermillon* `#F2471F`. Six couleurs de réponse (vermillon, cobalt, citron vert, ambre, sarcelle, orchidée), **chacune liée à une lettre et à un motif** : jamais d'information portée par la couleur seule.
+- **Couleurs** : encre `#17142B`, papier `#FAF6EE`, primaire *vermillon* `#D93A10` (variante `#F2471F` pour les blocs de réponse ; textes et boutons calibrés WCAG AA). Six couleurs de réponse (vermillon, cobalt, citron vert, ambre, sarcelle, orchidée), **chacune liée à une lettre et à un motif** : jamais d'information portée par la couleur seule.
 - **Typo** : *Bricolage Grotesque* (titres, chiffres de jeu) + *Figtree* (interface).
 - **Deux registres** : administration sobre et dense ; jeu spectaculaire (typo géante, couleurs franches, animations de score/podium).
 - **Mouvement** : 120–250 ms pour l'interface, animations expressives réservées aux moments de jeu, `prefers-reduced-motion` respecté.

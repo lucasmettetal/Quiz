@@ -178,12 +178,12 @@ export function ImportPage() {
             <div className="rounded-lg border-2 border-line bg-surface p-4">
               <p className="text-sm font-semibold text-fg-muted">{draft.source === 'kahoot' ? t('import.sourceKahoot') : t('import.sourceFile')}</p>
               <p className="mt-1 font-display text-2xl font-black">{t('common.questions', { count: draft.questions.length })}</p>
-              {invalid > 0 && <p className="mt-1 text-sm font-semibold text-amber-deep">{t('editor.issuesCount', { count: invalid })}</p>}
+              {invalid > 0 && <p className="mt-1 text-sm font-semibold text-warning-ink">{t('editor.issuesCount', { count: invalid })}</p>}
             </div>
             {draft.warnings.length > 0 && (
               <div className="rounded-lg border-2 border-amber bg-surface p-4">
                 <h2 className="mb-2 flex items-center gap-2 font-bold">
-                  <AlertTriangle className="size-4 text-amber-deep" aria-hidden="true" /> {t('import.warningsTitle')}
+                  <AlertTriangle className="size-4 text-warning-ink" aria-hidden="true" /> {t('import.warningsTitle')}
                 </h2>
                 <ul className="flex flex-col gap-1.5 text-sm text-fg-muted">
                   {draft.warnings.map((w, i) => (
@@ -218,7 +218,7 @@ export function ImportPage() {
             </Button>
           </form>
           {error?.source === 'kahoot' && (
-            <p role="alert" className="rounded-md bg-danger-soft px-3 py-2 text-sm font-medium text-danger">
+            <p role="alert" className="rounded-md bg-danger-soft px-3 py-2 text-sm font-medium text-danger-ink">
               {error.message}
             </p>
           )}
@@ -251,6 +251,7 @@ export function ImportPage() {
           <input
             ref={fileInput}
             type="file"
+            aria-label={t('import.fileTitle')}
             accept=".csv,.tsv,.txt,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             className="sr-only"
             tabIndex={-1}
@@ -260,7 +261,7 @@ export function ImportPage() {
             }}
           />
           {error?.source === 'file' && (
-            <p role="alert" className="rounded-md bg-danger-soft px-3 py-2 text-sm font-medium text-danger">
+            <p role="alert" className="rounded-md bg-danger-soft px-3 py-2 text-sm font-medium text-danger-ink">
               {error.message}
             </p>
           )}

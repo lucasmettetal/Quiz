@@ -150,7 +150,7 @@ export const QuizCard = memo(function QuizCard({ quiz, isOwner, isFavorite, layo
             <Link to={href} className="truncate font-display text-lg font-bold after:absolute after:inset-0 hover:underline">
               {title}
             </Link>
-            {isFavorite && <Star className="size-4 shrink-0 fill-amber text-amber-deep" aria-label={t('nav.favorites')} />}
+            {isFavorite && <Star className="size-4 shrink-0 fill-amber text-warning-ink" aria-label={t('nav.favorites')} />}
             {isOwner && <StatusBadges quiz={quiz} />}
           </div>
           <MetaLine quiz={quiz} isOwner={isOwner} />

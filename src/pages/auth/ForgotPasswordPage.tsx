@@ -38,7 +38,7 @@ export function ForgotPasswordPage() {
       title={t('auth.forgotTitle')}
       lead={t('auth.forgotLead')}
       footer={
-        <Link className="font-semibold text-primary hover:underline" to="/auth/login">
+        <Link className="font-semibold text-primary-ink hover:underline" to="/auth/login">
           {t('auth.backToLogin')}
         </Link>
       }
@@ -60,7 +60,7 @@ export function ForgotPasswordPage() {
             autoFocus
           />
           {error && (
-            <p role="alert" className="rounded-md bg-danger-soft px-3 py-2 text-sm font-medium text-danger">
+            <p role="alert" className="rounded-md bg-danger-soft px-3 py-2 text-sm font-medium text-danger-ink">
               {error}
             </p>
           )}

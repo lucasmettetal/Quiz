@@ -70,7 +70,7 @@ const Thumb = memo(function Thumb({ question, index, selected }: { question: Que
               <Icon className="size-3" aria-hidden="true" />
             </span>
             <span className="truncate text-[11px] font-semibold text-fg-subtle">{t(`questionTypes.${question.type}.name`)}</span>
-            {!valid && <AlertTriangle className="ml-auto size-3.5 shrink-0 text-amber-deep" aria-label={t('editor.invalid')} />}
+            {!valid && <AlertTriangle className="ml-auto size-3.5 shrink-0 text-warning-ink" aria-label={t('editor.invalid')} />}
           </div>
           <p className={cn('mt-1 line-clamp-2 text-xs leading-snug font-semibold', !question.prompt && 'text-fg-subtle italic')}>
             {question.prompt || t('editor.promptPlaceholder')}
@@ -86,7 +86,7 @@ const Thumb = memo(function Thumb({ question, index, selected }: { question: Que
       </div>
       <div className="absolute top-1 right-1 hidden gap-0.5 rounded-sm bg-surface group-focus-within:flex group-hover:flex">
         <IconButton size="sm" className="size-7" label={t('editor.duplicateQuestion')} icon={<Copy className="size-3.5" />} onClick={() => duplicate(question.id)} />
-        <IconButton size="sm" className="size-7 hover:text-danger" label={t('editor.deleteQuestion')} icon={<Trash2 className="size-3.5" />} onClick={handleRemove} />
+        <IconButton size="sm" className="size-7 hover:text-danger-ink" label={t('editor.deleteQuestion')} icon={<Trash2 className="size-3.5" />} onClick={handleRemove} />
       </div>
     </li>
   )
@@ -125,7 +125,7 @@ export function QuestionList({ onAdd }: { onAdd: () => void }) {
       </DndContext>
       <div className="border-t-2 border-line p-2">
         {invalidCount > 0 && (
-          <p className="mb-2 flex items-center gap-1.5 px-1 text-xs font-semibold text-amber-deep">
+          <p className="mb-2 flex items-center gap-1.5 px-1 text-xs font-semibold text-warning-ink">
             <AlertTriangle className="size-3.5" aria-hidden="true" />
             {t('editor.issuesCount', { count: invalidCount })}
           </p>
@@ -133,7 +133,7 @@ export function QuestionList({ onAdd }: { onAdd: () => void }) {
         <button
           type="button"
           onClick={onAdd}
-          className="flex w-full items-center justify-center gap-2 rounded-md border-2 border-dashed border-line py-2.5 text-sm font-bold text-fg-muted transition-colors duration-150 hover:border-primary hover:text-primary"
+          className="flex w-full items-center justify-center gap-2 rounded-md border-2 border-dashed border-line py-2.5 text-sm font-bold text-fg-muted transition-colors duration-150 hover:border-primary hover:text-primary-ink"
         >
           <Plus className="size-4" /> {t('editor.addQuestion')}
         </button>

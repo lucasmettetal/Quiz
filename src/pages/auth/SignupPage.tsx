@@ -51,7 +51,7 @@ export function SignupPage() {
           <MailCheck className="mt-0.5 size-6 shrink-0 text-teal" aria-hidden="true" />
           <p role="status">{t('auth.checkInbox')}</p>
         </div>
-        <Link to="/auth/login" className="mt-6 inline-block font-semibold text-primary hover:underline">
+        <Link to="/auth/login" className="mt-6 inline-block font-semibold text-primary-ink hover:underline">
           {t('auth.backToLogin')}
         </Link>
       </AuthLayout>
@@ -65,7 +65,7 @@ export function SignupPage() {
       footer={
         <>
           {t('auth.hasAccount')}{' '}
-          <Link className="font-semibold text-primary hover:underline" to={`/auth/login${params.size ? `?${params}` : ''}`}>
+          <Link className="font-semibold text-primary-ink hover:underline" to={`/auth/login${params.size ? `?${params}` : ''}`}>
             {t('auth.login')}
           </Link>
         </>
@@ -101,7 +101,7 @@ export function SignupPage() {
           error={errors.password && t('auth.validation.password')}
         />
         {formError && (
-          <p role="alert" className="rounded-md bg-danger-soft px-3 py-2 text-sm font-medium text-danger">
+          <p role="alert" className="rounded-md bg-danger-soft px-3 py-2 text-sm font-medium text-danger-ink">
             {formError}
           </p>
         )}

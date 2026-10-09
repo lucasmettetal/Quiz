@@ -179,9 +179,6 @@ export const fr = {
     shareLink: 'Lien du quiz',
     favorite: 'Ajouter aux favoris',
     unfavorite: 'Retirer des favoris',
-    lastPlayed: 'Joué {when}',
-    neverPlayed: 'Jamais joué',
-    cannotLaunch: 'Ce quiz contient des questions incomplètes. Ouvre l’éditeur pour les corriger.',
   },
   explore: {
     title: 'Explorer',
@@ -231,7 +228,6 @@ export const fr = {
     showAnswers: 'Afficher les réponses',
     notFoundTitle: 'Quiz introuvable',
     notFoundText: 'Ce quiz n’existe pas, a été supprimé ou n’est pas partagé avec toi.',
-    forkedFrom: 'Inspiré d’un autre quiz',
     playedTimes: { one: 'Joué {count} fois', other: 'Joué {count} fois' },
     signInToLaunch: 'Connecte-toi pour lancer ou dupliquer ce quiz.',
   },
@@ -331,16 +327,10 @@ export const fr = {
     categoryCollect: 'Recueillir',
     pickerTitle: 'Quel type de question ?',
     pickerLead: 'Tu pourras en changer plus tard.',
-    comingSoon: 'Bientôt',
     quiz: { name: 'Quiz', description: '2 à 6 réponses, une ou plusieurs bonnes.' },
     true_false: { name: 'Vrai ou faux', description: 'Deux choix, une seule vérité.' },
     text: { name: 'Réponse écrite', description: 'Le joueur tape sa réponse au clavier.' },
     poll: { name: 'Sondage', description: 'Pas de mauvaise réponse : on recueille les avis.' },
-    upcoming: {
-      order: 'Remettre dans l’ordre',
-      slider: 'Curseur',
-      wordcloud: 'Nuage de mots',
-    },
     quizEditor: {
       option: 'Réponse {letter}',
       optionPlaceholder: 'Ajouter une réponse',
@@ -413,7 +403,6 @@ export const fr = {
     notFoundText: 'Cette partie n’existe pas ou tu n’en es pas l’hôte.',
     launching: 'Lancement…',
     textAnswersTitle: 'Réponses données',
-    shownToPlayers: 'Affiché sur les téléphones',
     correctCount: '{count} bonne(s) réponse(s) sur {total}',
   },
   player: {
@@ -465,9 +454,7 @@ export const fr = {
     kickedText: 'L’hôte t’a retiré de cette partie.',
     hostAway: 'L’hôte s’est déconnecté — la partie reprendra dès son retour.',
     reconnecting: 'Reconnexion…',
-    lateJoin: 'Tu arrives en cours de partie : tu joues dès la prochaine question.',
     selectAll: 'Plusieurs réponses possibles',
-    tapToAnswer: 'Touche ta réponse',
   },
   import: {
     title: 'Importer un quiz',

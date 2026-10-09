@@ -9,12 +9,12 @@ export function SaveIndicator() {
   const status = useEditorStore((s) => s.saveStatus)
   const map = {
     idle: { icon: Check, label: t('editor.saved'), tone: 'text-fg-subtle' },
-    saved: { icon: Check, label: t('editor.saved'), tone: 'text-success' },
+    saved: { icon: Check, label: t('editor.saved'), tone: 'text-success-ink' },
     pending: { icon: Loader2, label: t('editor.unsaved'), tone: 'text-fg-subtle' },
     saving: { icon: Loader2, label: t('editor.saving'), tone: 'text-fg-muted' },
-    offline: { icon: CloudOff, label: t('editor.offline'), tone: 'text-amber-deep' },
-    error: { icon: AlertTriangle, label: t('editor.saveError'), tone: 'text-danger' },
-    conflict: { icon: AlertTriangle, label: t('errors.VERSION_CONFLICT'), tone: 'text-danger' },
+    offline: { icon: CloudOff, label: t('editor.offline'), tone: 'text-warning-ink' },
+    error: { icon: AlertTriangle, label: t('editor.saveError'), tone: 'text-danger-ink' },
+    conflict: { icon: AlertTriangle, label: t('errors.VERSION_CONFLICT'), tone: 'text-danger-ink' },
   }[status]
   const Icon = map.icon
   const spinning = status === 'saving' || status === 'pending'

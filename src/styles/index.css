@@ -28,8 +28,8 @@
   --color-orchid: #c04bd9;
   --color-orchid-deep: #9b2fb3;
 
-  --color-success: #12a86b;
-  --color-danger: #e5383b;
+  --color-success: #0e8a57;
+  --color-danger: #d12f32;
 
   --radius-xs: 4px;
   --radius-sm: 6px;
@@ -83,6 +83,10 @@
   --color-success-soft: var(--tilt-success-soft);
   --color-danger-soft: var(--tilt-danger-soft);
   --color-shadow: var(--tilt-shadow);
+  --color-primary-ink: var(--tilt-primary-ink);
+  --color-success-ink: var(--tilt-success-ink);
+  --color-danger-ink: var(--tilt-danger-ink);
+  --color-warning-ink: var(--tilt-warning-ink);
   --color-edge: var(--tilt-edge);
   --color-stage: var(--tilt-stage);
   --color-stage-fg: var(--tilt-stage-fg);
@@ -98,9 +102,13 @@
   --tilt-line-strong: #17142b;
   --tilt-fg: #17142b;
   --tilt-fg-muted: #57536b;
-  --tilt-fg-subtle: #858197;
-  --tilt-primary: #f2471f;
-  --tilt-primary-hover: #d83a14;
+  --tilt-fg-subtle: #6c6882;
+  --tilt-primary: #d93a10;
+  --tilt-primary-hover: #bf300a;
+  --tilt-primary-ink: #c3330c;
+  --tilt-success-ink: #0b7a4c;
+  --tilt-danger-ink: #c0282b;
+  --tilt-warning-ink: #8f5b00;
   --tilt-primary-fg: #ffffff;
   --tilt-primary-soft: #fde4dc;
   --tilt-success-soft: #dcf5e9;
@@ -122,9 +130,13 @@
   --tilt-line-strong: #f4efe6;
   --tilt-fg: #f4efe6;
   --tilt-fg-muted: #b3aec8;
-  --tilt-fg-subtle: #8580a0;
-  --tilt-primary: #ff5a33;
-  --tilt-primary-hover: #ff7350;
+  --tilt-fg-subtle: #9a95b5;
+  --tilt-primary: #d93a10;
+  --tilt-primary-hover: #ef4a1c;
+  --tilt-primary-ink: #ff8a66;
+  --tilt-success-ink: #4fd69c;
+  --tilt-danger-ink: #ff7b7e;
+  --tilt-warning-ink: #ffc24d;
   --tilt-primary-fg: #ffffff;
   --tilt-primary-soft: #3d1d1d;
   --tilt-success-soft: #123528;

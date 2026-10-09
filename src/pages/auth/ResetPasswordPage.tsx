@@ -48,7 +48,7 @@ export function ResetPasswordPage() {
           autoFocus
         />
         {error && (
-          <p role="alert" className="rounded-md bg-danger-soft px-3 py-2 text-sm font-medium text-danger">
+          <p role="alert" className="rounded-md bg-danger-soft px-3 py-2 text-sm font-medium text-danger-ink">
             {error}
           </p>
         )}

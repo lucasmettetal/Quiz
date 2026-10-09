@@ -88,7 +88,7 @@ export function QuestionSettingsPanel() {
             {POINT_VALUES.map((p) => (
               <button key={p} type="button" role="radio" aria-checked={question.points === p} onClick={() => update({ ...question, points: p })} className={cn(chip(question.points === p), 'h-auto py-1.5')}>
                 <span className="block">{pointLabels[p]}</span>
-                <span className="block text-[10px] font-semibold opacity-70">{p}</span>
+                <span className="block text-[10px] font-semibold">{p}</span>
               </button>
             ))}
           </div>
@@ -110,14 +110,14 @@ export function QuestionSettingsPanel() {
         {issues.length ? (
           <ul className="flex flex-col gap-1.5">
             {issues.map((issue) => (
-              <li key={issue} className="flex items-start gap-2 text-sm text-amber-deep">
+              <li key={issue} className="flex items-start gap-2 text-sm text-warning-ink">
                 <AlertTriangle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
                 {t(`editor.issues.${issue}`)}
               </li>
             ))}
           </ul>
         ) : (
-          <p className="flex items-center gap-2 text-sm font-semibold text-success">
+          <p className="flex items-center gap-2 text-sm font-semibold text-success-ink">
             <CheckCircle2 className="size-4" aria-hidden="true" /> {t('editor.valid')}
           </p>
         )}

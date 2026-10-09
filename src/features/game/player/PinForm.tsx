@@ -57,7 +57,7 @@ export function PinForm({ onSubmit, defaultValue = '', loading, error, tone = 's
         )}
       />
       {error && (
-        <p id={`${id}-error`} role="alert" className={cn('text-sm font-medium', tone === 'stage' ? 'text-amber' : 'text-danger')}>
+        <p id={`${id}-error`} role="alert" className={cn('text-sm font-medium', tone === 'stage' ? 'text-amber' : 'text-danger-ink')}>
           {error}
         </p>
       )}
