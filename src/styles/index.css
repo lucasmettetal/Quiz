@@ -217,6 +217,16 @@
   background-size: 22px 22px;
 }
 
+@keyframes confetti-fall {
+  from { transform: translateY(0) rotate(0deg); }
+  to { transform: translateY(110vh) rotate(540deg); }
+}
+
+@keyframes intro-bar {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
 @utility skeleton {
   background: linear-gradient(90deg, var(--tilt-surface-2) 25%, var(--tilt-surface-3) 50%, var(--tilt-surface-2) 75%);
   background-size: 200% 100%;

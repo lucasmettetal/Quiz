@@ -54,6 +54,18 @@ export const router = createBrowserRouter([
         ),
         children: [{ index: true, lazy: page(() => import('@/pages/EditorPage'), (m) => m.EditorPage) }],
       },
+      {
+        path: '/host/:sessionId',
+        element: (
+          <RequireCreator>
+            <Outlet />
+          </RequireCreator>
+        ),
+        children: [{ index: true, lazy: page(() => import('@/pages/HostPage'), (m) => m.HostPage) }],
+      },
+      { path: '/join', lazy: page(() => import('@/pages/JoinPage'), (m) => m.JoinPage) },
+      { path: '/join/:pin', lazy: page(() => import('@/pages/JoinPage'), (m) => m.JoinPage) },
+      { path: '/play/:sessionId', lazy: page(() => import('@/pages/PlayPage'), (m) => m.PlayPage) },
       { path: '/quiz/:quizId', lazy: page(() => import('@/pages/QuizDetailPage'), (m) => m.QuizDetailPage) },
       { path: '*', lazy: page(() => import('@/pages/NotFoundPage'), (m) => m.NotFoundPage) },
     ],

@@ -848,6 +848,16 @@ begin
 end;
 $$;
 
+-- Lets clients align their countdowns on the database clock.
+create or replace function public.server_time()
+returns timestamptz
+language sql
+stable
+set search_path = ''
+as $$
+  select now();
+$$;
+
 -- -----------------------------------------------------------------------------
 -- Privileges: deny by default, expose only the public API.
 -- -----------------------------------------------------------------------------
@@ -858,7 +868,8 @@ grant execute on function
   public.compute_question_score(integer, integer, integer, boolean),
   public.normalize_text_answer(text, boolean),
   public.question_issues(text, text, jsonb),
-  public.find_session(text)
+  public.find_session(text),
+  public.server_time()
 to anon, authenticated;
 
 grant execute on function
