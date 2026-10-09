@@ -42,6 +42,7 @@ export const router = createBrowserRouter([
           { path: 'quizzes', lazy: page(() => import('@/pages/app/QuizzesPage'), (m) => m.QuizzesPage) },
           { path: 'explore', lazy: page(() => import('@/pages/app/ExplorePage'), (m) => m.ExplorePage) },
           { path: 'favorites', lazy: page(() => import('@/pages/app/FavoritesPage'), (m) => m.FavoritesPage) },
+          { path: 'import', lazy: page(() => import('@/pages/app/ImportPage'), (m) => m.ImportPage) },
           { path: 'results', lazy: page(() => import('@/pages/app/ResultsPage'), (m) => m.ResultsPage) },
           { path: 'results/:sessionId', lazy: page(() => import('@/pages/app/ReportPage'), (m) => m.ReportPage) },
           { path: 'settings', lazy: page(() => import('@/pages/app/SettingsPage'), (m) => m.SettingsPage) },

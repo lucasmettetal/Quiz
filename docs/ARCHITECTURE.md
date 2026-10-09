@@ -128,6 +128,19 @@ src/
 5. **Live** — synchro hôte/joueur, chrono, réponses, correction, classement, podium.
 6. **Résultats** — historique, rapport, statistiques par question, export CSV.
 7. **Finition** — animations, responsive, accessibilité, performance.
+8. **Import** — depuis l'URL d'un kahoot public, ou depuis un fichier CSV/XLSX (repli), avec prévisualisation corrigeable avant création dans « Mes quiz ».
+
+## 8 bis. Import de quiz
+
+```
+URL kahoot ──► Edge Function import-kahoot ──► JSON brut ──┐
+               (seul code lié à l'API non officielle)      ├─► ImportDraft ──► prévisualisation ──► create + save_quiz ──► éditeur
+Fichier CSV/XLSX ──► parseCsv / readXlsx ──► tableToDraft ─┘   (questions Tilt + avertissements)
+```
+
+- **Kahoot** : l'endpoint utilisé n'est pas une API publique documentée. Il est isolé dans `supabase/functions/import-kahoot` (CORS, réservé aux créateurs connectés, n'accepte qu'un UUID de kahoot.it → pas de proxy ouvert, réponse filtrée et limitée). La conversion (`src/features/import/kahoot.ts`) est pure et testée : types *quiz*, *vrai/faux*, *réponse écrite* (« type answer »), *sondage* ; timers ramenés aux valeurs autorisées ; points ×0/×1/×2 ; images conservées (copiées dans notre stockage quand le navigateur le permet, sinon URL d'origine). Les types non gérés (puzzle, curseur, nuage de mots, diapositives) deviennent des avertissements visibles.
+- **Repli fichier** : CSV (délimiteur détecté) ou XLSX (lecteur minimal fflate + DOMParser, chargé à la demande). Les en-têtes sont reconnus en FR/EN : modèle Tilt téléchargeable, et modèle tableur de Kahoot.
+- **Déploiement** : `supabase functions deploy import-kahoot`. Si la fonction n'est pas déployée ou si Kahoot change son format, l'interface l'explique et propose l'import de fichier.
 
 ## 9. Lancer le projet
 

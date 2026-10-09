@@ -6,12 +6,12 @@ import type { Question } from '../model'
 import { QUESTION_TYPE_META } from './typeMeta'
 
 /** Read-only rendering of a question (quiz detail page, reports). */
-export function QuestionSummary({ question, index, showAnswers }: { question: Question; index: number; showAnswers: boolean }) {
+export function QuestionSummary({ question, index, showAnswers, as: Tag = 'li' }: { question: Question; index: number; showAnswers: boolean; as?: 'li' | 'div' }) {
   const t = useT()
   const meta = QUESTION_TYPE_META[question.type]
   const Icon = meta.icon
   return (
-    <li className="rounded-md border-2 border-line bg-surface p-4">
+    <Tag className="rounded-md border-2 border-line bg-surface p-4">
       <div className="flex items-start gap-3">
         <span className={cn('grid size-8 shrink-0 -rotate-6 place-items-center rounded-sm border-2 border-edge font-display text-sm font-bold', COLOR_CLASSES[meta.color].bg, COLOR_CLASSES[meta.color].on)}>
           {index + 1}
@@ -24,7 +24,7 @@ export function QuestionSummary({ question, index, showAnswers }: { question: Qu
           {showAnswers && <AnswersPreview question={question} />}
         </div>
       </div>
-    </li>
+    </Tag>
   )
 }
 

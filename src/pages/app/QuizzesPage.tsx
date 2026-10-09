@@ -1,8 +1,8 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { LayoutGrid, List, Plus, SearchX, Sparkles } from 'lucide-react'
+import { LayoutGrid, List, Plus, SearchX, Sparkles, Upload } from 'lucide-react'
 import { useState } from 'react'
 import { PageContainer, PageHeader } from '@/components/layout/PageHeader'
-import { Button } from '@/components/ui/Button'
+import { Button, ButtonLink } from '@/components/ui/Button'
 import { Select } from '@/components/ui/Field'
 import { SearchInput } from '@/components/ui/SearchInput'
 import { EmptyState, ErrorState } from '@/components/ui/States'
@@ -47,9 +47,14 @@ export function QuizzesPage() {
         title={t('quizzes.title')}
         lead={t('quizzes.lead')}
         actions={
-          <Button icon={<Plus className="size-5" />} loading={create.isPending} onClick={() => create.mutate()}>
-            {t('nav.createQuiz')}
-          </Button>
+          <>
+            <ButtonLink to="/app/import" variant="secondary" icon={<Upload className="size-4" />}>
+              {t('import.title')}
+            </ButtonLink>
+            <Button icon={<Plus className="size-5" />} loading={create.isPending} onClick={() => create.mutate()}>
+              {t('nav.createQuiz')}
+            </Button>
+          </>
         }
       />
 

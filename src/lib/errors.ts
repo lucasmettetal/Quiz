@@ -43,6 +43,13 @@ export const APP_ERROR_CODES = [
   'ALREADY_ANSWERED',
   'TIME_UP',
   'INVALID_ANSWER',
+  // import
+  'KAHOOT_URL_INVALID',
+  'KAHOOT_NOT_FOUND',
+  'KAHOOT_PRIVATE',
+  'KAHOOT_UNAVAILABLE',
+  'IMPORT_EMPTY',
+  'IMPORT_FILE_INVALID',
 ] as const
 
 export type AppErrorCode = (typeof APP_ERROR_CODES)[number]

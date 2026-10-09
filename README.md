@@ -28,6 +28,14 @@ Puis, dans le dashboard Supabase : **Authentication → Providers → Anonymous 
 
 En local (Docker requis) : `npx supabase start && npx supabase db reset` — applique les migrations **et** `supabase/seed.sql` (données de démo, compte `demo@tilt.dev` / `tilt-demo-2026`, jamais à utiliser en production).
 
+### Import Kahoot (optionnel)
+
+```bash
+npx supabase functions deploy import-kahoot
+```
+
+Sans cette fonction, l'import par fichier CSV/XLSX reste disponible.
+
 ### Lancer
 
 ```bash

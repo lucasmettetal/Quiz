@@ -53,7 +53,7 @@ describe('stats', () => {
   })
 
   it('exports CSV safely', () => {
-    expect(toCsv([['a,b', '=SUM(A1)', 'say "hi"']])).toBe('﻿"a,b",\'=SUM(A1),"say ""hi"""')
+    expect(toCsv([['a,b', '=SUM(A1)', 'say "hi"']])).toBe('\uFEFF"a,b",\'=SUM(A1),"say ""hi"""')
     const csv = playersCsv([quizQ, textQ], players, answers, {
       rank: 'Rang', player: 'Joueur', score: 'Score', correct: 'Bonnes', question: (n) => `Q${n}`,
     })

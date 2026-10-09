@@ -142,7 +142,7 @@ function csvCell(value: string | number | null | undefined): string {
 
 export function toCsv(rows: Array<Array<string | number | null | undefined>>): string {
   // BOM so Excel opens UTF-8 accents correctly.
-  return '﻿' + rows.map((r) => r.map(csvCell).join(',')).join('\r\n')
+  return '\uFEFF' + rows.map((r) => r.map(csvCell).join(',')).join('\r\n')
 }
 
 /** One row per player: rank, nickname, score, correct answers, then per-question points. */

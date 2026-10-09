@@ -18,6 +18,9 @@ export function getSupabase(): SupabaseClient {
 export const MEDIA_BUCKET = 'quiz-media'
 
 export function mediaPublicUrl(path: string | null | undefined): string | null {
-  if (!path || !client) return null
+  if (!path) return null
+  // Imported media may still point to their original https URL.
+  if (path.startsWith('https://')) return path
+  if (!client) return null
   return client.storage.from(MEDIA_BUCKET).getPublicUrl(path).data.publicUrl
 }
