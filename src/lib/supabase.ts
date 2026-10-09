@@ -4,7 +4,7 @@ import { AppError } from './errors'
 
 const client: SupabaseClient | null = isSupabaseConfigured
   ? createClient(env.supabaseUrl, env.supabaseAnonKey, {
-      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: 'pkce' },
+      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false, flowType: 'pkce' },
       realtime: { params: { eventsPerSecond: 20 } },
     })
   : null

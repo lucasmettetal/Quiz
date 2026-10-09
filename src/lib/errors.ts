@@ -18,6 +18,12 @@ export const APP_ERROR_CODES = [
   'EMAIL_NOT_CONFIRMED',
   'RATE_LIMITED',
   'ANONYMOUS_DISABLED',
+  'EMAIL_INVALID',
+  'EMAIL_SEND_FAILED',
+  'SAME_PASSWORD',
+  'LINK_EXPIRED',
+  'LINK_INVALID',
+  'LINK_OTHER_DEVICE',
   // quizzes
   'QUIZ_NOT_FOUND',
   'QUIZ_EMPTY',
@@ -79,6 +85,15 @@ function codeOf(e: unknown): string {
   return ''
 }
 
+function statusOf(e: unknown): number | undefined {
+  if (e && typeof e === 'object' && 'status' in e && typeof e.status === 'number') return e.status
+  return undefined
+}
+
+function nameOf(e: unknown): string {
+  return e && typeof e === 'object' && 'name' in e && typeof e.name === 'string' ? e.name : ''
+}
+
 export function toAppError(e: unknown): AppError {
   if (e instanceof AppError) return e
   const message = messageOf(e)
@@ -86,13 +101,22 @@ export function toAppError(e: unknown): AppError {
 
   if (KNOWN.has(message)) return new AppError(message as AppErrorCode, e)
 
-  // Supabase Auth
+  // Supabase Auth (codes: https://supabase.com/docs/guides/auth/debugging/error-codes)
+  const status = statusOf(e)
+  if (status === 429 || code.startsWith('over_') || /rate limit|too many requests/i.test(message)) return new AppError('RATE_LIMITED', e)
+  if (nameOf(e) === 'AuthRetryableFetchError') return new AppError('NETWORK', e)
+  if (code === 'same_password') return new AppError('SAME_PASSWORD', e)
+  if (code === 'email_address_invalid' || /invalid format|email address.*invalid/i.test(message)) return new AppError('EMAIL_INVALID', e)
+  // SMTP misconfigured, or Supabase's default mailer refusing non-team addresses.
+  if (code === 'email_address_not_authorized' || /error sending .*email/i.test(message)) return new AppError('EMAIL_SEND_FAILED', e)
+  if (code === 'otp_expired') return new AppError('LINK_EXPIRED', e)
+  if (code === 'bad_code_verifier' || code === 'flow_state_not_found') return new AppError('LINK_OTHER_DEVICE', e)
+  if (code === 'session_not_found' || code === 'session_expired' || nameOf(e) === 'AuthSessionMissingError') return new AppError('LINK_INVALID', e)
   if (code === 'invalid_credentials' || /invalid login credentials/i.test(message)) return new AppError('INVALID_CREDENTIALS', e)
   if (code === 'user_already_exists' || code === 'email_exists' || /already registered/i.test(message)) return new AppError('EMAIL_TAKEN', e)
   if (code === 'weak_password' || /password should/i.test(message)) return new AppError('WEAK_PASSWORD', e)
   if (code === 'email_not_confirmed') return new AppError('EMAIL_NOT_CONFIRMED', e)
-  if (code === 'over_request_rate_limit' || code === 'over_email_send_rate_limit') return new AppError('RATE_LIMITED', e)
-  if (code === 'anonymous_provider_disabled') return new AppError('ANONYMOUS_DISABLED', e)
+    if (code === 'anonymous_provider_disabled') return new AppError('ANONYMOUS_DISABLED', e)
 
   // PostgREST
   if (code === 'PGRST116') return new AppError('NOT_FOUND', e)

@@ -7,6 +7,7 @@ import { TextField } from '@/components/ui/Field'
 import { displayNameSchema, emailSchema, passwordSchema, validateFields, type FieldErrors } from '@/features/auth/authForms'
 import { GoogleButton } from '@/features/auth/GoogleButton'
 import { safeNext } from '@/features/auth/RequireCreator'
+import { ResendConfirmation } from '@/features/auth/ResendConfirmation'
 import { signUp } from '@/services/auth'
 import { toAppError } from '@/lib/errors'
 import { useI18n } from '@/i18n/I18nProvider'
@@ -50,6 +51,9 @@ export function SignupPage() {
         <div className="flex items-start gap-3 rounded-md border-2 border-line bg-surface p-4">
           <MailCheck className="mt-0.5 size-6 shrink-0 text-teal" aria-hidden="true" />
           <p role="status">{t('auth.checkInbox')}</p>
+        </div>
+        <div className="mt-4">
+          <ResendConfirmation email={values.email.trim()} />
         </div>
         <Link to="/auth/login" className="mt-6 inline-block font-semibold text-primary-ink hover:underline">
           {t('auth.backToLogin')}

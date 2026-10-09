@@ -7,7 +7,8 @@ import { emailSchema, validateFields, type FieldErrors } from '@/features/auth/a
 import { GoogleButton } from '@/features/auth/GoogleButton'
 import { safeNext } from '@/features/auth/RequireCreator'
 import { signInWithPassword } from '@/services/auth'
-import { toAppError } from '@/lib/errors'
+import { toAppError, type AppErrorCode } from '@/lib/errors'
+import { ResendConfirmation } from '@/features/auth/ResendConfirmation'
 import { useT } from '@/i18n/I18nProvider'
 import { z } from 'zod'
 
@@ -18,7 +19,7 @@ export function LoginPage() {
   const next = safeNext(params.get('next'))
   const [values, setValues] = useState({ email: '', password: '' })
   const [errors, setErrors] = useState<FieldErrors<'email' | 'password'>>({})
-  const [formError, setFormError] = useState<string | null>(null)
+  const [formError, setFormError] = useState<AppErrorCode | null>(null)
   const [loading, setLoading] = useState(false)
 
   async function onSubmit(e: FormEvent) {
@@ -32,7 +33,7 @@ export function LoginPage() {
       await signInWithPassword(values.email.trim(), values.password)
       navigate(next, { replace: true })
     } catch (err) {
-      setFormError(t(`errors.${toAppError(err).code}`))
+      setFormError(toAppError(err).code)
     } finally {
       setLoading(false)
     }
@@ -75,9 +76,10 @@ export function LoginPage() {
         </Link>
         {formError && (
           <p role="alert" className="rounded-md bg-danger-soft px-3 py-2 text-sm font-medium text-danger-ink">
-            {formError}
+            {t(`errors.${formError}`)}
           </p>
         )}
+        {formError === 'EMAIL_NOT_CONFIRMED' && <ResendConfirmation email={values.email.trim()} />}
         <Button type="submit" size="lg" loading={loading}>
           {t('auth.login')}
         </Button>

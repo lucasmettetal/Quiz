@@ -2,7 +2,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Monitor, Moon, Sun } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 import { PageContainer, PageHeader } from '@/components/layout/PageHeader'
-import { Button, ButtonLink } from '@/components/ui/Button'
+import { Button } from '@/components/ui/Button'
+import { ChangePasswordForm } from '@/features/auth/ChangePasswordForm'
 import { TextField } from '@/components/ui/Field'
 import { toast } from '@/components/ui/Toaster'
 import { SegmentedControl } from '@/components/ui/misc'
@@ -129,9 +130,8 @@ export function SettingsPage() {
 
         <Section title={t('settings.account')}>
           <p className="text-sm text-fg-muted">{t('settings.email', { email: session?.user.email ?? '—' })}</p>
-          <ButtonLink to="/auth/reset" variant="secondary" className="mt-4">
-            {t('settings.changePassword')}
-          </ButtonLink>
+          <h3 className="mt-5 mb-3 text-base font-bold">{t('settings.changePassword')}</h3>
+          <ChangePasswordForm />
         </Section>
       </div>
     </PageContainer>

@@ -24,14 +24,27 @@ file_size_limit = "5MiB"
 [auth]
 enabled = true
 site_url = "http://localhost:5173"
-additional_redirect_urls = ["http://localhost:5173/auth/callback", "http://localhost:5173/auth/reset"]
+additional_redirect_urls = ["http://localhost:5173/auth/callback", "http://localhost:5173/auth/reset", "http://localhost:4173/auth/callback", "http://localhost:4173/auth/reset"]
 enable_signup = true
 # Players join games without an account through anonymous sign-ins.
 enable_anonymous_sign_ins = true
 
 [auth.email]
 enable_signup = true
+# Local stack: e-mails are caught by Inbucket (http://localhost:54324). In
+# production, enable confirmations in the dashboard once SMTP is configured.
 enable_confirmations = false
+
+# Optional local SMTP (e.g. Resend) — values come from the CLI's environment,
+# never from the frontend. Production SMTP is set in the Supabase dashboard.
+# [auth.email.smtp]
+# enabled = true
+# host = "smtp.resend.com"
+# port = 465
+# user = "resend"
+# pass = "env(SUPABASE_AUTH_SMTP_PASS)"
+# admin_email = "no-reply@your-domain.com"
+# sender_name = "Tilt"
 
 [auth.external.google]
 enabled = false
