@@ -78,9 +78,11 @@ export function LandingPage() {
             </ButtonLink>
           ) : (
             <>
-              <ButtonLink to="/auth/login" variant="ghost" className="hidden sm:inline-flex">
-                {t('nav.signIn')}
-              </ButtonLink>
+              <span className="hidden sm:contents">
+                <ButtonLink to="/auth/login" variant="ghost">
+                  {t('nav.signIn')}
+                </ButtonLink>
+              </span>
               <ButtonLink to="/auth/signup" variant="primary">
                 {t('landing.ctaCreate')}
               </ButtonLink>

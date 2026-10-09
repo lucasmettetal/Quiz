@@ -96,23 +96,25 @@ export function EditorPage() {
         <div className="flex items-center gap-1 sm:gap-2">
           <IconButton label={t('common.preview')} icon={<Eye className="size-5" />} onClick={() => setDialog('preview')} disabled={!hasQuestions} />
           <IconButton label={t('editor.settingsTitle')} icon={<Settings2 className="size-5" />} onClick={() => setDialog('settings')} />
-          <Button variant="secondary" className="hidden sm:inline-flex" icon={<Globe className="size-4" />} onClick={() => setDialog('publish')}>
-            {t('editor.publish')}
-          </Button>
+          <span className="hidden sm:contents">
+            <Button variant="secondary" icon={<Globe className="size-4" />} onClick={() => setDialog('publish')}>
+              {t('editor.publish')}
+            </Button>
+          </span>
           <Button icon={<Play className="size-4" />} onClick={handleLaunch} loading={launch.isPending} disabled={!hasQuestions}>
             <span className="hidden sm:inline">{t('editor.launch')}</span>
           </Button>
         </div>
       </header>
 
-      <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
-        <div className="max-h-56 shrink-0 overflow-hidden border-b-2 border-line bg-surface lg:max-h-none lg:w-64 lg:border-r-2 lg:border-b-0">
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto lg:flex-row lg:overflow-hidden">
+        <div className="h-60 shrink-0 overflow-hidden border-b-2 border-line bg-surface lg:h-auto lg:w-64 lg:border-r-2 lg:border-b-0">
           <QuestionList onAdd={() => setDialog('type')} />
         </div>
-        <main className="min-h-0 flex-1 overflow-y-auto bg-surface-2/50">
+        <main className="shrink-0 bg-surface-2/50 lg:min-h-0 lg:flex-1 lg:shrink lg:overflow-y-auto">
           <QuestionCanvas onAdd={() => setDialog('type')} />
         </main>
-        <div className="shrink-0 overflow-y-auto border-t-2 border-line bg-surface lg:w-72 lg:border-t-0 lg:border-l-2">
+        <div className="shrink-0 border-t-2 border-line bg-surface lg:w-72 lg:overflow-y-auto lg:border-t-0 lg:border-l-2">
           <QuestionSettingsPanel />
           <div className="border-t-2 border-line p-4 sm:hidden">
             <Button variant="secondary" className="w-full" icon={<Globe className="size-4" />} onClick={() => setDialog('publish')}>
