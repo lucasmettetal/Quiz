@@ -586,6 +586,6 @@ export const fr = {
 }
 
 type Leaf = string | { one: string; other: string }
-type Widen<T> = T extends string ? string : T extends Leaf ? { one: string; other: string } : { [K in keyof T]: Widen<T[K]> }
+type Widen<T> = T extends string ? string : T extends Leaf ? { one: string; other: string } : { [K in keyof T]: Widen<T[K]> }
 
 export type Messages = Widen<typeof fr>

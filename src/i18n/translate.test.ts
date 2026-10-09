@@ -11,7 +11,7 @@ function keysOf(obj: object, prefix = ''): string[] {
 
 describe('translate', () => {
   it('interpolates variables and formats numbers per locale', () => {
-    expect(translate('fr', 'dashboard.greeting', { name: 'Léa' })).toBe('Salut Léa00a0!')
+    expect(translate('fr', 'dashboard.greeting', { name: 'Léa' })).toBe('Salut Léa !')
     expect(translate('fr', 'player.finalScore', { score: 12500 })).toBe('12 500 points')
     expect(translate('en', 'player.finalScore', { score: 12500 })).toBe('12,500 points')
   })
