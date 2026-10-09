@@ -3,7 +3,7 @@ import { NavLink, Outlet, useNavigate } from 'react-router'
 import { Button, IconButton } from '@/components/ui/Button'
 import { Logo } from '@/components/ui/Logo'
 import { Menu } from '@/components/ui/Menu'
-import { Avatar } from '@/components/ui/misc'
+import { PersonAvatar } from '@/features/avatars/AvatarFace'
 import { useAuth } from '@/features/auth/AuthProvider'
 import { useCreateQuiz } from '@/features/quizzes/useQuizActions'
 import { signOut } from '@/services/auth'
@@ -66,7 +66,7 @@ function UserMenu({ compact = false }: { compact?: boolean }) {
             compact ? 'p-1' : 'w-full p-2',
           )}
         >
-          <Avatar name={profile.display_name} color={profile.avatar_color} size={compact ? 'sm' : 'md'} />
+          <PersonAvatar config={profile.avatar_config} name={profile.id} size={compact ? 30 : 38} />
           {!compact && <span className="min-w-0 flex-1 truncate text-sm font-semibold">{profile.display_name}</span>}
         </button>
       )}

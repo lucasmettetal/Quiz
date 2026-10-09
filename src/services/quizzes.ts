@@ -4,7 +4,7 @@ import { toAppError, unwrap } from '@/lib/errors'
 import { PALETTE } from '@/lib/palette'
 import { questionRowSchema, quizSchema, type Quiz, type QuizCategory, type Visibility } from '@/types/database'
 
-const authorSchema = z.object({ display_name: z.string(), avatar_color: z.enum(PALETTE) }).nullable()
+const authorSchema = z.object({ display_name: z.string(), avatar_color: z.enum(PALETTE), avatar_config: z.unknown().optional() }).nullable()
 
 export const quizWithMetaSchema = quizSchema.extend({
   author: authorSchema.optional(),
@@ -12,7 +12,7 @@ export const quizWithMetaSchema = quizSchema.extend({
 })
 export type QuizWithMeta = z.infer<typeof quizWithMetaSchema>
 
-const SELECT_WITH_META = '*, author:profiles!quizzes_owner_id_fkey(display_name, avatar_color), quiz_tags(tag)'
+const SELECT_WITH_META = '*, author:profiles!quizzes_owner_id_fkey(display_name, avatar_color, avatar_config), quiz_tags(tag)'
 
 export type QuizSort = 'updated' | 'created' | 'title' | 'plays'
 export type QuizStatusFilter = 'all' | 'draft' | 'published'

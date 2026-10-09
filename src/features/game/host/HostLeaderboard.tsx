@@ -2,11 +2,11 @@ import { AnimatePresence, motion } from 'motion/react'
 import { ArrowDown, ArrowRight, ArrowUp, BarChart3, Flame, Home } from 'lucide-react'
 import { Button, ButtonLink } from '@/components/ui/Button'
 import { cn } from '@/lib/cn'
-import { COLOR_CLASSES } from '@/lib/palette'
 import { sortLeaderboard } from '@/features/game/engine/events'
 import { useT } from '@/i18n/I18nProvider'
 import type { GameSession, Player } from '@/types/database'
 import { AnimatedNumber } from '../components/GameBits'
+import { PersonAvatar } from '@/features/avatars/AvatarFace'
 
 function RankDelta({ player }: { player: Player }) {
   if (player.previous_rank === null || player.rank === null || player.previous_rank === player.rank) return null
@@ -29,7 +29,6 @@ export function HostLeaderboard({ session, players, onNext, advancing }: { sessi
       <ol className="mx-auto flex w-full max-w-4xl flex-col gap-3">
         <AnimatePresence>
           {top.map((p, i) => {
-            const c = COLOR_CLASSES[p.avatar]
             return (
               <motion.li
                 key={p.id}
@@ -43,9 +42,7 @@ export function HostLeaderboard({ session, players, onNext, advancing }: { sessi
                 )}
               >
                 <span className="w-10 text-center font-display text-3xl font-black tabular">{p.rank ?? '–'}</span>
-                <span className={cn('grid size-10 shrink-0 -rotate-6 place-items-center rounded-sm border-2 border-black font-display text-lg font-black', c.bg, c.on)} aria-hidden="true">
-                  {p.nickname.charAt(0).toUpperCase()}
-                </span>
+                <PersonAvatar config={p.avatar_config} name={p.nickname} size={52} framed />
                 <span className="min-w-0 flex-1 truncate font-display text-[clamp(1.25rem,2.4vw,2rem)] font-bold">{p.nickname}</span>
                 {p.streak >= 3 && (
                   <span className="hidden items-center gap-1 rounded-sm bg-amber px-2 py-0.5 font-bold text-ink sm:inline-flex">
@@ -91,7 +88,8 @@ export function HostPodium({ session, players, onClose, closing }: { session: Ga
           return (
             <div key={place} className={cn('flex h-full w-1/3 max-w-60 flex-col items-center justify-end')}>
               {p && (
-                <motion.div initial={{ opacity: 0, y: 30, scale: 0.8 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: delay + 0.35, type: 'spring', stiffness: 300, damping: 16 }} className="mb-3 text-center">
+                <motion.div initial={{ opacity: 0, y: 30, scale: 0.8 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: delay + 0.35, type: 'spring', stiffness: 300, damping: 16 }} className="mb-3 flex flex-col items-center text-center">
+                  <PersonAvatar config={p.avatar_config} name={p.nickname} size={place === 1 ? 120 : 96} framed className="mb-3" />
                   <p className="font-display text-[clamp(1.25rem,2.6vw,2.25rem)] leading-tight font-black [overflow-wrap:anywhere]">{p.nickname}</p>
                   <p className="font-display text-lg font-bold text-paper/70 tabular">
                     <AnimatedNumber value={p.score} />

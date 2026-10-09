@@ -4,7 +4,8 @@ import { Link, useNavigate } from 'react-router'
 import { Button, IconButton } from '@/components/ui/Button'
 import { ConfirmDialog } from '@/components/ui/Dialog'
 import { Menu, type MenuItem } from '@/components/ui/Menu'
-import { Avatar, Badge } from '@/components/ui/misc'
+import { Badge } from '@/components/ui/misc'
+import { PersonAvatar } from '@/features/avatars/AvatarFace'
 import { cn } from '@/lib/cn'
 import { formatRelative } from '@/lib/format'
 import { useI18n } from '@/i18n/I18nProvider'
@@ -75,7 +76,7 @@ function MetaLine({ quiz, isOwner }: { quiz: QuizWithMeta; isOwner: boolean }) {
     <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-fg-muted">
       {!isOwner && quiz.author && (
         <span className="inline-flex items-center gap-1.5 font-semibold text-fg">
-          <Avatar name={quiz.author.display_name} color={quiz.author.avatar_color} size="sm" className="size-5 text-[10px]" />
+          <PersonAvatar config={quiz.author.avatar_config} name={quiz.owner_id} size={20} />
           {quiz.author.display_name}
         </span>
       )}

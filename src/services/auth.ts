@@ -138,7 +138,7 @@ export async function fetchProfile(userId: string): Promise<Profile | null> {
 
 export async function updateProfile(
   userId: string,
-  patch: Partial<{ display_name: string; avatar_color: PaletteColor; locale: Locale }>,
+  patch: Partial<{ display_name: string; avatar_color: PaletteColor; avatar_config: Record<string, string | number>; locale: Locale }>,
 ): Promise<Profile> {
   const { data, error } = await getSupabase().from('profiles').update(patch).eq('id', userId).select('*').single()
   if (error) throw toAppError(error)

@@ -5,6 +5,7 @@ import { Button, ButtonLink } from '@/components/ui/Button'
 import { EmptyState, ErrorState } from '@/components/ui/States'
 import { Skeleton } from '@/components/ui/misc'
 import { useAuth } from '@/features/auth/AuthProvider'
+import { PersonAvatar } from '@/features/avatars/AvatarFace'
 import { QuizCard, QuizCardSkeleton } from '@/features/quizzes/QuizCard'
 import { useFavoriteIds } from '@/features/quizzes/queries'
 import { useCreateQuiz } from '@/features/quizzes/useQuizActions'
@@ -65,9 +66,14 @@ export function DashboardPage() {
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 py-6 sm:px-8 lg:py-10">
       <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-        <div>
-          <h1 className="text-4xl font-extrabold sm:text-5xl">{t('dashboard.greeting', { name: profile!.display_name })}</h1>
-          <p className="mt-1 text-fg-muted">{t('dashboard.lead')}</p>
+        <div className="flex items-center gap-4">
+          <Link to="/app/settings" aria-label={t('settings.title')} className="shrink-0 -rotate-3 rounded-lg border-2 border-edge bg-surface p-1.5 shadow-block-sm transition-transform duration-150 hover:rotate-0">
+            <PersonAvatar config={profile!.avatar_config} name={profile!.id} size={64} />
+          </Link>
+          <div>
+            <h1 className="text-4xl font-extrabold sm:text-5xl">{t('dashboard.greeting', { name: profile!.display_name })}</h1>
+            <p className="mt-1 text-fg-muted">{t('dashboard.lead')}</p>
+          </div>
         </div>
         <ButtonLink to="/join" target="_blank" variant="secondary" icon={<Gamepad2 className="size-4" />}>
           {t('dashboard.quickJoin')}

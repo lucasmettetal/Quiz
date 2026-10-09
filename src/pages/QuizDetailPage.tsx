@@ -5,7 +5,8 @@ import { Link, useNavigate, useParams } from 'react-router'
 import { Button, ButtonLink } from '@/components/ui/Button'
 import { Logo } from '@/components/ui/Logo'
 import { ErrorState } from '@/components/ui/States'
-import { Avatar, Skeleton } from '@/components/ui/misc'
+import { Skeleton } from '@/components/ui/misc'
+import { PersonAvatar } from '@/features/avatars/AvatarFace'
 import { useAuth } from '@/features/auth/AuthProvider'
 import { questionFromRow } from '@/features/questions/registry'
 import { QuestionSummary } from '@/features/questions/ui/QuestionSummary'
@@ -76,7 +77,7 @@ export function QuizDetailPage() {
                 <h1 className="mt-1 text-4xl font-extrabold">{quiz.data.title || t('quizzes.untitled')}</h1>
                 {quiz.data.author && (
                   <p className="mt-2 flex items-center gap-2 text-sm text-fg-muted">
-                    <Avatar name={quiz.data.author.display_name} color={quiz.data.author.avatar_color} size="sm" />
+                    <PersonAvatar config={quiz.data.author.avatar_config} name={quiz.data.owner_id} size={30} />
                     {t('common.by', { name: quiz.data.author.display_name })}
                   </p>
                 )}

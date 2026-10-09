@@ -11,6 +11,7 @@ import type { PlayerView } from '@/services/play'
 import { useCountdown } from '@/hooks/useCountdown'
 import { useT } from '@/i18n/I18nProvider'
 import { AnimatedNumber, CountdownBar } from '../components/GameBits'
+import { PersonAvatar } from '@/features/avatars/AvatarFace'
 
 type View = PlayerView
 
@@ -27,7 +28,8 @@ function Big({ children, className }: { children: ReactNode; className?: string 
 export function PlayerBadge({ view }: { view: View }) {
   const c = COLOR_CLASSES[view.player.avatar]
   return (
-    <span className={cn('inline-flex max-w-full items-center gap-2 truncate rounded-sm border-2 border-black px-2.5 py-1 font-display font-bold', c.bg, c.on)}>
+    <span className={cn('inline-flex max-w-full items-center gap-1.5 truncate rounded-sm border-2 border-black py-0.5 pr-2.5 pl-0.5 font-display font-bold', c.bg, c.on)}>
+      <PersonAvatar config={view.player.avatar_config} name={view.player.nickname} size={24} />
       {view.player.nickname}
     </span>
   )
@@ -42,9 +44,10 @@ export function LobbyScreen({ view, onlineCount }: { view: View; onlineCount: nu
         initial={{ scale: 0.5, rotate: -20, opacity: 0 }}
         animate={{ scale: 1, rotate: -4, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 380, damping: 15 }}
-        className={cn('max-w-full rounded-lg border-[4px] border-black px-6 py-4 shadow-[7px_7px_0_0_#000]', c.bg, c.on)}
+        className={cn('flex max-w-full flex-col items-center gap-2 rounded-lg border-[4px] border-black px-6 pt-5 pb-4 shadow-[7px_7px_0_0_#000]', c.bg, c.on)}
       >
-        <p className="font-display text-[clamp(2rem,10vw,3.25rem)] leading-none font-black [overflow-wrap:anywhere]">{view.player.nickname}</p>
+        <PersonAvatar config={view.player.avatar_config} name={view.player.nickname} size={112} />
+        <p className="font-display text-[clamp(1.75rem,9vw,3rem)] leading-none font-black [overflow-wrap:anywhere]">{view.player.nickname}</p>
       </motion.div>
       <div>
         <Big>{t('player.lobbyTitle')}</Big>

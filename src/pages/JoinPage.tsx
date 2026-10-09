@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from 'react'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Palette, Shuffle } from 'lucide-react'
 import { Link, useNavigate, useParams } from 'react-router'
 import { Button } from '@/components/ui/Button'
 import { Logo } from '@/components/ui/Logo'
@@ -10,11 +10,22 @@ import { findSession, joinSession, type FoundSession } from '@/services/play'
 import { toAppError, type AppErrorCode } from '@/lib/errors'
 import { cn } from '@/lib/cn'
 import { safeStorage } from '@/lib/storage'
-import { COLOR_CLASSES, PALETTE, colorFor, isPaletteColor, type PaletteColor } from '@/lib/palette'
+import { generateAvatarFromSeed, parseAvatarConfig, randomAvatar, serializeAvatar, type AvatarConfig } from '@/features/avatars/avatar'
+import { AvatarEditor } from '@/features/avatars/AvatarEditor'
+import { AvatarFace } from '@/features/avatars/AvatarFace'
 import { useT } from '@/i18n/I18nProvider'
 
 const NICK_KEY = 'tilt.nickname'
-const COLOR_KEY = 'tilt.avatar'
+/** A customized avatar is remembered on this device; an automatic one follows the nickname. */
+const AVATAR_KEY = 'tilt.avatar.config'
+
+function storedAvatar(): AvatarConfig | null {
+  try {
+    return parseAvatarConfig(JSON.parse(safeStorage.get(AVATAR_KEY) ?? 'null'))
+  } catch {
+    return null
+  }
+}
 
 export function JoinPage() {
   const { pin: pinParam } = useParams()
@@ -25,10 +36,11 @@ export function JoinPage() {
   const [error, setError] = useState<AppErrorCode | null>(null)
   const [checking, setChecking] = useState(Boolean(pin))
   const [nickname, setNickname] = useState(() => safeStorage.get(NICK_KEY) ?? '')
-  const [avatar, setAvatar] = useState<PaletteColor>(() => {
-    const stored = safeStorage.get(COLOR_KEY)
-    return isPaletteColor(stored) ? stored : colorFor(String(Math.random()))
-  })
+  // null = automatic avatar derived from the nickname (updates as you type).
+  const [customAvatar, setCustomAvatar] = useState<AvatarConfig | null>(storedAvatar)
+  const [editing, setEditing] = useState(false)
+  const autoAvatar = generateAvatarFromSeed(nickname.trim() || 'tilt')
+  const avatar = customAvatar ?? autoAvatar
   const [joining, setJoining] = useState(false)
 
   // Validate the PIN as soon as we have one (typed or from a shared link / QR code).
@@ -59,7 +71,8 @@ export function JoinPage() {
       await ensurePlayerIdentity()
       const player = await joinSession(pin, nick, avatar)
       safeStorage.set(NICK_KEY, nick)
-      safeStorage.set(COLOR_KEY, avatar)
+      if (customAvatar) safeStorage.set(AVATAR_KEY, JSON.stringify(serializeAvatar(customAvatar)))
+      else safeStorage.remove(AVATAR_KEY)
       navigate(`/play/${player.session_id}`, { replace: true })
     } catch (err) {
       setError(toAppError(err).code)
@@ -112,50 +125,55 @@ export function JoinPage() {
               <p className="text-sm font-semibold text-paper/60">{found.quiz_title}</p>
               <h1 className="mt-1 text-4xl font-extrabold">{t('player.nicknameTitle')}</h1>
             </div>
-            <div className="flex flex-col gap-2">
-              <label htmlFor="nickname" className="sr-only">
-                {t('player.nicknameLabel')}
-              </label>
-              <input
-                id="nickname"
-                value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
-                maxLength={24}
-                autoFocus
-                autoComplete="nickname"
-                enterKeyHint="go"
-                placeholder={t('player.nicknamePlaceholder')}
-                aria-invalid={error === 'NICKNAME_TAKEN' || error === 'NICKNAME_INVALID' || undefined}
-                className={cn(
-                  'h-16 w-full rounded-md border-[3px] px-4 font-display text-2xl font-bold focus:outline-none',
-                  COLOR_CLASSES[avatar].bg,
-                  COLOR_CLASSES[avatar].on,
-                  'border-black placeholder:text-current placeholder:opacity-50 focus-visible:ring-4 focus-visible:ring-paper/60',
-                  error && 'animate-wiggle',
-                )}
-              />
-              <p className="text-xs text-paper/60">{t('player.nicknameHint')}</p>
-            </div>
-            <fieldset>
-              <legend className="mb-2 text-sm font-semibold">{t('player.avatarLabel')}</legend>
-              <div className="flex gap-2">
-                {PALETTE.map((c) => (
-                  <button
-                    key={c}
-                    type="button"
-                    role="radio"
-                    aria-checked={avatar === c}
-                    aria-label={t(`colors.${c}`)}
-                    onClick={() => setAvatar(c)}
-                    className={cn(
-                      'size-11 rounded-sm border-[3px] transition-transform duration-150',
-                      COLOR_CLASSES[c].bg,
-                      avatar === c ? '-rotate-6 border-paper' : 'border-black hover:-rotate-3',
-                    )}
-                  />
-                ))}
+            <div className="flex items-center gap-3">
+              {/* Avatar proposed from the nickname: no extra step to join. */}
+              <div className="grid size-20 shrink-0 -rotate-3 place-items-center rounded-md border-[3px] border-black bg-paper shadow-[4px_4px_0_0_#000]">
+                <AvatarFace config={avatar} size={66} title={t('avatar.of', { name: nickname.trim() || '?' })} />
               </div>
-            </fieldset>
+              <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+                <label htmlFor="nickname" className="sr-only">
+                  {t('player.nicknameLabel')}
+                </label>
+                <input
+                  id="nickname"
+                  value={nickname}
+                  onChange={(e) => setNickname(e.target.value)}
+                  maxLength={24}
+                  autoFocus
+                  autoComplete="nickname"
+                  enterKeyHint="go"
+                  placeholder={t('player.nicknamePlaceholder')}
+                  aria-invalid={error === 'NICKNAME_TAKEN' || error === 'NICKNAME_INVALID' || undefined}
+                  className={cn(
+                    'h-14 w-full rounded-md border-[3px] border-black bg-paper px-4 font-display text-2xl font-bold text-ink placeholder:text-ink/40 focus:outline-none focus-visible:ring-4 focus-visible:ring-lime',
+                    error && 'animate-wiggle',
+                  )}
+                />
+                <p className="text-xs text-paper/60">{t('player.nicknameHint')}</p>
+              </div>
+            </div>
+            <div className="flex flex-col gap-3">
+              <div className="flex gap-2">
+                <Button size="sm" variant="paper" icon={<Shuffle className="size-4" />} onClick={() => setCustomAvatar(randomAvatar())}>
+                  {t('avatar.shuffle')}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  aria-expanded={editing}
+                  className="text-paper/85 hover:bg-white/10 hover:text-paper"
+                  icon={<Palette className="size-4" />}
+                  onClick={() => setEditing((e) => !e)}
+                >
+                  {editing ? t('avatar.done') : t('avatar.customize')}
+                </Button>
+              </div>
+              {editing && (
+                <div className="animate-fade-up rounded-lg border-2 border-white/15 bg-white/5 p-3">
+                  <AvatarEditor tone="stage" value={avatar} onChange={(c) => setCustomAvatar(c === autoAvatar ? null : c)} resetTo={autoAvatar} />
+                </div>
+              )}
+            </div>
             {errorText && (
               <p role="alert" className="rounded-md bg-amber px-3 py-2 text-sm font-semibold text-ink">
                 {errorText}

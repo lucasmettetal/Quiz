@@ -6,7 +6,8 @@ import { PageContainer } from '@/components/layout/PageHeader'
 import { Button } from '@/components/ui/Button'
 import { ConfirmDialog } from '@/components/ui/Dialog'
 import { ErrorState } from '@/components/ui/States'
-import { Avatar, Badge, Skeleton } from '@/components/ui/misc'
+import { Badge, Skeleton } from '@/components/ui/misc'
+import { PersonAvatar } from '@/features/avatars/AvatarFace'
 import { questionFromRow, questionTypes } from '@/features/questions/registry'
 import type { Question } from '@/features/questions/model'
 import { QUESTION_TYPE_META } from '@/features/questions/ui/typeMeta'
@@ -205,7 +206,7 @@ export function ReportPage() {
               {ranked.map((p) => (
                 <li key={p.id} className="flex items-center gap-3 border-b border-line px-4 py-2.5 last:border-b-0">
                   <span className="w-6 text-center font-display font-black tabular">{p.rank ?? '–'}</span>
-                  <Avatar name={p.nickname} color={p.avatar} size="sm" />
+                  <PersonAvatar config={p.avatar_config} name={p.nickname} size={30} />
                   <span className="min-w-0 flex-1 truncate font-semibold">{p.nickname}</span>
                   {p.status !== 'active' && <Badge>{t(`results.status.${p.status}`)}</Badge>}
                   <span className="text-xs text-fg-muted tabular">

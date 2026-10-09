@@ -32,36 +32,6 @@ export function Badge({
   )
 }
 
-/** A colored, slightly tilted square with an initial: Tilt's avatar. */
-export function Avatar({
-  name,
-  color,
-  size = 'md',
-  className,
-}: {
-  name: string
-  color: PaletteColor
-  size?: 'sm' | 'md' | 'lg' | 'xl'
-  className?: string
-}) {
-  const sizes = { sm: 'size-7 text-xs', md: 'size-9 text-sm', lg: 'size-12 text-lg', xl: 'size-16 text-2xl' }
-  const c = COLOR_CLASSES[color]
-  return (
-    <span
-      aria-hidden="true"
-      className={cn(
-        'inline-grid shrink-0 -rotate-3 place-items-center rounded-sm border-2 border-edge font-display font-bold uppercase',
-        c.bg,
-        c.on,
-        sizes[size],
-        className,
-      )}
-    >
-      {name.trim().charAt(0) || '?'}
-    </span>
-  )
-}
-
 /** Solid color block with a pattern overlay — covers, answer tiles, decorations. */
 export function PatternBlock({
   color,

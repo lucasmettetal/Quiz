@@ -26,6 +26,8 @@ export const profileSchema = z.object({
   id: z.string(),
   display_name: z.string(),
   avatar_color: z.enum(PALETTE),
+  /** Modular avatar (see features/avatars); null/absent on older rows. */
+  avatar_config: z.unknown().optional(),
   locale: z.enum(['fr', 'en']),
   created_at: timestamp,
   updated_at: timestamp,
@@ -110,6 +112,7 @@ export const playerSchema = z.object({
   user_id: z.string(),
   nickname: z.string(),
   avatar: z.enum(PALETTE),
+  avatar_config: z.unknown().optional(),
   status: z.enum(PLAYER_STATUSES),
   score: z.number(),
   last_points: z.number(),

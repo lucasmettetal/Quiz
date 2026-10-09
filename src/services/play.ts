@@ -5,7 +5,8 @@ import { safeStorage } from '@/lib/storage'
 import { GAME_STATES } from '@/features/game/engine/stateMachine'
 import { parsePublicQuestion, parseSolution, type PublicQuestion, type Solution } from '@/features/questions/public'
 import type { AnyAnswer } from '@/features/questions/model'
-import { PALETTE, type PaletteColor } from '@/lib/palette'
+import { PALETTE } from '@/lib/palette'
+import { serializeAvatar, type AvatarConfig } from '@/features/avatars/avatar'
 import { PLAYER_STATUSES, playerSchema, type Player } from '@/types/database'
 
 const foundSessionSchema = z
@@ -25,8 +26,10 @@ export async function findSession(pin: string): Promise<FoundSession | null> {
   return foundSessionSchema.parse(data)
 }
 
-export async function joinSession(pin: string, nickname: string, avatar: PaletteColor): Promise<Player> {
-  const { data, error } = await getSupabase().rpc('join_session', { p_pin: pin, p_nickname: nickname, p_avatar: avatar }).single()
+export async function joinSession(pin: string, nickname: string, avatar: AvatarConfig): Promise<Player> {
+  const { data, error } = await getSupabase()
+    .rpc('join_session', { p_pin: pin, p_nickname: nickname, p_avatar: avatar.primary, p_avatar_config: serializeAvatar(avatar) })
+    .single()
   if (error) throw toAppError(error)
   const player = playerSchema.parse(data)
   rememberPlayer(player.session_id, pin)
@@ -73,6 +76,7 @@ const viewSchema = z.object({
     id: z.string(),
     nickname: z.string(),
     avatar: z.enum(PALETTE),
+    avatar_config: z.unknown().optional(),
     status: z.enum(PLAYER_STATUSES),
     score: z.number(),
     last_points: z.number(),

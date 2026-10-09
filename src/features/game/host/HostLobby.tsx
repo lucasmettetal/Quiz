@@ -11,6 +11,7 @@ import { toAppError } from '@/lib/errors'
 import { useT } from '@/i18n/I18nProvider'
 import type { GameSession, Player } from '@/types/database'
 import { QrCode, tiltFor } from '../components/GameBits'
+import { PersonAvatar } from '@/features/avatars/AvatarFace'
 
 interface HostLobbyProps {
   session: GameSession
@@ -116,11 +117,12 @@ export function HostLobby({ session, players, onlinePlayerIds, onStart, starting
                       aria-label={t('host.kick', { name: p.nickname })}
                       title={offline ? t('host.offline') : t('host.kick', { name: p.nickname })}
                       className={cn(
-                        'group relative flex items-center gap-2 rounded-md border-[3px] border-black px-4 py-2 font-display text-xl font-bold shadow-[4px_4px_0_0_#000] transition-transform hover:-translate-y-0.5',
+                        'group relative flex items-center gap-2 rounded-md border-[3px] border-black py-1.5 pr-4 pl-1.5 font-display text-xl font-bold shadow-[4px_4px_0_0_#000] transition-transform hover:-translate-y-0.5',
                         c.bg,
                         c.on,
                       )}
                     >
+                      <PersonAvatar config={p.avatar_config} name={p.nickname} size={38} />
                       {p.nickname}
                       <X className="size-4 opacity-0 transition-opacity group-hover:opacity-80 group-focus-visible:opacity-80" aria-hidden="true" />
                     </button>

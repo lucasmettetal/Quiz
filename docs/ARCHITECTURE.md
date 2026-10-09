@@ -130,6 +130,24 @@ src/
 7. **Finition** — animations, responsive, accessibilité, performance.
 8. **Import** — depuis l'URL d'un kahoot public, ou depuis un fichier CSV/XLSX (repli), avec prévisualisation corrigeable avant création dans « Mes quiz ».
 
+## 8 ter. Avatars
+
+Avatars modulaires dessinés en SVG à partir d'une **config JSON** (aucune image stockée) :
+
+```ts
+{ v: 1, seed: 'Zoé', head: 'shield', eyes: 'wink', mouth: 'flat', top: 'bowl', accessory: 'blush', pattern: 'none', primary: 'orchid', secondary: 'lime' }
+```
+
+- `src/features/avatars/catalog.ts` : liste des pièces par catégorie (tête, yeux, bouche, coiffe, accessoire, motif) avec rareté et règle de déblocage.
+- `avatar.ts` : `generateAvatarFromSeed(seed)` (déterministe : même pseudo → même avatar), `parseAvatarConfig` (tolère données anciennes/partielles/inconnues), `serializeAvatar`, helpers d'édition.
+- `parts.tsx` : dessins (canevas 100×100, contour encre épais, ombre portée dure, inclinaison) ; `AvatarFace.tsx` : rendu, `PersonAvatar` (config enregistrée ou avatar dérivé du nom ; `framed` sur fond sombre).
+- Stockage : `profiles.avatar_config` et `players.avatar_config` (jsonb, nullable, assainis par `sanitize_avatar()` côté serveur ; migration `20261009000400_avatars.sql`). Les anciennes lignes sans config affichent l'avatar dérivé du pseudo (joueurs) ou de l'id (profils). `avatar_color` / `players.avatar` restent synchronisés avec la couleur principale.
+- Accessibilité : deux avatars ne se distinguent jamais par la seule couleur — silhouettes de tête, coiffes, accessoires et motifs varient indépendamment.
+
+**Ajouter une pièce** : 1) une entrée dans `catalog.ts` (id unique en minuscules, jamais renommé ensuite) ; 2) son dessin sous le même id dans `parts.tsx` ; 3) `npm test` vérifie que chaque pièce du catalogue a un dessin et peut être générée. Aucune migration nécessaire.
+
+**Pièces rares / débloquables (préparé, pas encore actif)** : une pièce peut porter `rarity: 'rare' | 'legendary'` et `unlock` (`achievement`, `event`, `streak`). Les pièces verrouillées ne sont ni générées ni proposées dans l'éditeur tant qu'elles ne figurent pas dans l'ensemble `unlocked` passé au générateur/éditeur. Déjà au catalogue : auréole (série de 10), couronne (première victoire), monocle (10 parties animées), motif damier (événement de lancement). Pour l'activer : une table `player_unlocks(user_id, unlock_key)` alimentée par le moteur de jeu (ex. à la clôture d'une partie), lue par l'app pour construire `unlocked`, et vérifiée dans `sanitize_avatar()` pour qu'une pièce non possédée ne puisse pas être enregistrée.
+
 ## 8 bis. Import de quiz
 
 ```
