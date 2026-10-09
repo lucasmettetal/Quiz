@@ -1,5 +1,5 @@
-import { useEffect, useState, type FormEvent } from 'react'
-import { ArrowLeft, ArrowRight, Palette, Shuffle } from 'lucide-react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { ArrowLeft, ArrowRight, Check, Palette, Shuffle } from 'lucide-react'
 import { Link, useNavigate, useParams } from 'react-router'
 import { Button } from '@/components/ui/Button'
 import { Logo } from '@/components/ui/Logo'
@@ -11,11 +11,14 @@ import { toAppError, type AppErrorCode } from '@/lib/errors'
 import { cn } from '@/lib/cn'
 import { safeStorage } from '@/lib/storage'
 import { generateAvatarFromSeed, parseAvatarConfig, randomAvatar, serializeAvatar, type AvatarConfig } from '@/features/avatars/avatar'
-import { AvatarEditor } from '@/features/avatars/AvatarEditor'
-import { AvatarFace } from '@/features/avatars/AvatarFace'
+import { AvatarEditor, AvatarPreview } from '@/features/avatars/AvatarEditor'
 import { useT } from '@/i18n/I18nProvider'
 
 const NICK_KEY = 'tilt.nickname'
+
+const secondaryAction =
+  'inline-flex h-12 min-w-0 items-center justify-center gap-2 rounded-md border-2 border-white/40 px-3 text-sm font-bold text-paper ' +
+  'transition-colors duration-150 hover:border-paper hover:bg-white/5 active:translate-y-px'
 /** A customized avatar is remembered on this device; an automatic one follows the nickname. */
 const AVATAR_KEY = 'tilt.avatar.config'
 
@@ -39,6 +42,19 @@ export function JoinPage() {
   // null = automatic avatar derived from the nickname (updates as you type).
   const [customAvatar, setCustomAvatar] = useState<AvatarConfig | null>(storedAvatar)
   const [editing, setEditing] = useState(false)
+  const customizeButton = useRef<HTMLButtonElement>(null)
+  const panelRef = useRef<HTMLElement>(null)
+
+  function openEditor() {
+    setEditing(true)
+    // Move focus into the panel (on the selected category) once it is interactive.
+    requestAnimationFrame(() => panelRef.current?.querySelector<HTMLElement>('[role="tab"][aria-selected="true"]')?.focus({ preventScroll: true }))
+  }
+
+  function closeEditor() {
+    setEditing(false)
+    requestAnimationFrame(() => customizeButton.current?.focus())
+  }
   const autoAvatar = generateAvatarFromSeed(nickname.trim() || 'tilt')
   const avatar = customAvatar ?? autoAvatar
   const [joining, setJoining] = useState(false)
@@ -127,8 +143,15 @@ export function JoinPage() {
             </div>
             <div className="flex items-center gap-3">
               {/* Avatar proposed from the nickname: no extra step to join. */}
-              <div className="grid size-20 shrink-0 -rotate-3 place-items-center rounded-md border-[3px] border-black bg-paper shadow-[4px_4px_0_0_#000]">
-                <AvatarFace config={avatar} size={66} title={t('avatar.of', { name: nickname.trim() || '?' })} />
+              <div
+                role="img"
+                aria-label={t('avatar.of', { name: nickname.trim() || '?' })}
+                className={cn(
+                  'grid shrink-0 -rotate-3 place-items-center rounded-md border-[3px] border-black bg-paper shadow-[4px_4px_0_0_#000] transition-[width,height] duration-200 ease-out',
+                  editing ? 'size-24' : 'size-20',
+                )}
+              >
+                <AvatarPreview config={avatar} size={editing ? 80 : 66} />
               </div>
               <div className="flex min-w-0 flex-1 flex-col gap-1.5">
                 <label htmlFor="nickname" className="sr-only">
@@ -152,27 +175,52 @@ export function JoinPage() {
                 <p className="text-xs text-paper/60">{t('player.nicknameHint')}</p>
               </div>
             </div>
-            <div className="flex flex-col gap-3">
-              <div className="flex gap-2">
-                <Button size="sm" variant="paper" icon={<Shuffle className="size-4" />} onClick={() => setCustomAvatar(randomAvatar())}>
+            {/* Default: two light actions; the main CTA stays "Let's go". */}
+            {!editing && (
+              <div className="grid grid-cols-2 gap-2">
+                <button type="button" onClick={() => setCustomAvatar(randomAvatar())} className={secondaryAction}>
+                  <Shuffle className="size-4 shrink-0" aria-hidden="true" />
                   {t('avatar.shuffle')}
-                </Button>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  aria-expanded={editing}
-                  className="text-paper/85 hover:bg-white/10 hover:text-paper"
-                  icon={<Palette className="size-4" />}
-                  onClick={() => setEditing((e) => !e)}
-                >
-                  {editing ? t('avatar.done') : t('avatar.customize')}
-                </Button>
+                </button>
+                <button ref={customizeButton} type="button" aria-expanded={editing} aria-controls="avatar-panel" onClick={openEditor} className={secondaryAction}>
+                  <Palette className="size-4 shrink-0" aria-hidden="true" />
+                  {t('avatar.customize')}
+                </button>
               </div>
-              {editing && (
-                <div className="animate-fade-up rounded-lg border-2 border-white/15 bg-white/5 p-3">
-                  <AvatarEditor tone="stage" value={avatar} onChange={(c) => setCustomAvatar(c === autoAvatar ? null : c)} resetTo={autoAvatar} />
-                </div>
+            )}
+            {/* Customization panel: opens in place (no extra screen), collapses fully when done. */}
+            <div
+              id="avatar-panel"
+              inert={!editing}
+              className={cn(
+                'grid transition-[grid-template-rows,opacity] duration-200 ease-out',
+                editing ? 'grid-rows-[1fr] opacity-100' : '-mt-6 grid-rows-[0fr] opacity-0',
               )}
+            >
+              <div className="min-h-0 overflow-hidden pr-1.5 pb-1.5">
+                <section aria-labelledby="avatar-panel-title" ref={panelRef} className="rounded-lg border-[3px] border-black bg-ink-soft p-3 shadow-[5px_5px_0_0_#000]">
+                  <div className="mb-3 flex items-center justify-between gap-2">
+                    <h2 id="avatar-panel-title" className="font-display text-lg font-bold">
+                      {t('avatar.customizeTitle')}
+                    </h2>
+                    <button
+                      type="button"
+                      onClick={closeEditor}
+                      className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-md border-2 border-lime px-3 text-sm font-bold text-lime transition-colors duration-150 hover:bg-lime hover:text-ink"
+                    >
+                      <Check className="size-4" strokeWidth={3} aria-hidden="true" />
+                      {t('avatar.done')}
+                    </button>
+                  </div>
+                  <AvatarEditor
+                    tone="stage"
+                    showPreview={false}
+                    value={avatar}
+                    onChange={(c) => setCustomAvatar(c === autoAvatar ? null : c)}
+                    resetTo={autoAvatar}
+                  />
+                </section>
+              </div>
             </div>
             {errorText && (
               <p role="alert" className="rounded-md bg-amber px-3 py-2 text-sm font-semibold text-ink">

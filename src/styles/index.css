@@ -234,6 +234,11 @@
   to { transform: translateY(110vh) rotate(540deg); }
 }
 
+@keyframes avatar-bump {
+  0% { transform: scale(0.88) rotate(-4deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
 @keyframes intro-bar {
   from { transform: scaleX(0); }
   to { transform: scaleX(1); }
