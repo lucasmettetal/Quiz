@@ -13,6 +13,8 @@ interface DialogProps {
   footer?: ReactNode
   size?: 'sm' | 'md' | 'lg' | 'xl'
   className?: string
+  /** false: no close button, Escape and backdrop do nothing (forced decisions). */
+  dismissible?: boolean
 }
 
 const SIZES = { sm: 'max-w-sm', md: 'max-w-lg', lg: 'max-w-2xl', xl: 'max-w-4xl' }
@@ -21,7 +23,7 @@ const SIZES = { sm: 'max-w-sm', md: 'max-w-lg', lg: 'max-w-2xl', xl: 'max-w-4xl'
  * Built on the native <dialog>: focus trap, Escape and inert background come
  * from the browser; we only add the look and backdrop click.
  */
-export function Dialog({ open, onClose, title, description, children, footer, size = 'md', className }: DialogProps) {
+export function Dialog({ open, onClose, title, description, children, footer, size = 'md', className, dismissible = true }: DialogProps) {
   const ref = useRef<HTMLDialogElement>(null)
   const titleId = useId()
   const descId = useId()
@@ -41,10 +43,10 @@ export function Dialog({ open, onClose, title, description, children, footer, si
       aria-describedby={description ? descId : undefined}
       onCancel={(e) => {
         e.preventDefault()
-        onClose()
+        if (dismissible) onClose()
       }}
       onClick={(e) => {
-        if (e.target === e.currentTarget) onClose()
+        if (dismissible && e.target === e.currentTarget) onClose()
       }}
       className={cn(
         'm-auto w-[calc(100%-2rem)] rounded-lg border-2 border-edge bg-surface p-0 text-fg shadow-block-lg',
@@ -66,7 +68,7 @@ export function Dialog({ open, onClose, title, description, children, footer, si
                 </p>
               )}
             </div>
-            <IconButton label={t('common.close')} icon={<X className="size-5" />} size="sm" onClick={onClose} />
+            {dismissible && <IconButton label={t('common.close')} icon={<X className="size-5" />} size="sm" onClick={onClose} />}
           </header>
           {children && <div className="min-h-0 flex-1 overflow-y-auto px-6 pb-4">{children}</div>}
           {footer && <footer className="flex flex-wrap justify-end gap-2 border-t border-line px-6 py-4">{footer}</footer>}

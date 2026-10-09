@@ -45,6 +45,15 @@ export const router = createBrowserRouter([
           { path: 'settings', lazy: page(() => import('@/pages/app/SettingsPage'), (m) => m.SettingsPage) },
         ],
       },
+      {
+        path: '/editor/:quizId',
+        element: (
+          <RequireCreator>
+            <Outlet />
+          </RequireCreator>
+        ),
+        children: [{ index: true, lazy: page(() => import('@/pages/EditorPage'), (m) => m.EditorPage) }],
+      },
       { path: '/quiz/:quizId', lazy: page(() => import('@/pages/QuizDetailPage'), (m) => m.QuizDetailPage) },
       { path: '*', lazy: page(() => import('@/pages/NotFoundPage'), (m) => m.NotFoundPage) },
     ],
