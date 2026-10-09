@@ -150,5 +150,11 @@ describe('quiz authoring & RLS', () => {
     expect(await db.as(stranger, () => db.query('select * from public.players where session_id = $1', [s.id]))).toHaveLength(1)
     await expect(db.as(stranger, () => db.query(`update public.players set score = 99999 where session_id = $1`, [s.id])))
       .rejects.toThrow()
+
+    // Only the host can delete the game.
+    await db.as(stranger, () => db.query('delete from public.game_sessions where id = $1', [s.id]))
+    expect(await db.query('select id from public.game_sessions where id = $1', [s.id])).toHaveLength(1)
+    await db.as(alice, () => db.query('delete from public.game_sessions where id = $1', [s.id]))
+    expect(await db.query('select id from public.players where session_id = $1', [s.id])).toHaveLength(0)
   })
 })

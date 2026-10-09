@@ -416,6 +416,11 @@ grant select on public.game_sessions to authenticated;
 create policy game_sessions_select on public.game_sessions for select to authenticated
   using (host_id = (select auth.uid()) or public.is_session_player(id));
 
+-- The host may delete a game and its results (cascades to players & answers).
+grant delete on public.game_sessions to authenticated;
+create policy game_sessions_delete_host on public.game_sessions for delete to authenticated
+  using (host_id = (select auth.uid()));
+
 -- game_questions: host only (they contain the correct answers).
 grant select on public.game_questions to authenticated;
 
