@@ -1,0 +1,39 @@
+# Minimal Supabase CLI config — run `supabase start` for a local stack.
+project_id = "tilt"
+
+[api]
+port = 54321
+schemas = ["public"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 15
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[realtime]
+enabled = true
+
+[storage]
+enabled = true
+file_size_limit = "5MiB"
+
+[auth]
+enabled = true
+site_url = "http://localhost:5173"
+additional_redirect_urls = ["http://localhost:5173/auth/callback", "http://localhost:5173/auth/reset"]
+enable_signup = true
+# Players join games without an account through anonymous sign-ins.
+enable_anonymous_sign_ins = true
+
+[auth.email]
+enable_signup = true
+enable_confirmations = false
+
+[auth.external.google]
+enabled = false
+client_id = "env(SUPABASE_AUTH_GOOGLE_CLIENT_ID)"
+secret = "env(SUPABASE_AUTH_GOOGLE_SECRET)"

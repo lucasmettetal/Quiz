@@ -1,0 +1,228 @@
+@import 'tailwindcss';
+
+/* Dark mode follows the data-theme attribute set by the theme store. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* -----------------------------------------------------------------------------
+   Brand palette (raw values) — never used directly for text/surfaces in
+   components: use the semantic tokens below so both themes stay correct.
+   -------------------------------------------------------------------------- */
+@theme {
+  --font-display: 'Bricolage Grotesque Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Figtree Variable', ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: #17142b;
+  --color-ink-soft: #2a2645;
+  --color-paper: #faf6ee;
+
+  --color-vermilion: #f2471f;
+  --color-vermilion-deep: #c9330f;
+  --color-cobalt: #2f5bea;
+  --color-cobalt-deep: #1f43bd;
+  --color-lime: #b8e62e;
+  --color-lime-deep: #8fb81a;
+  --color-amber: #ffb020;
+  --color-amber-deep: #db8f00;
+  --color-teal: #12a594;
+  --color-teal-deep: #0b8073;
+  --color-orchid: #c04bd9;
+  --color-orchid-deep: #9b2fb3;
+
+  --color-success: #12a86b;
+  --color-danger: #e5383b;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  --ease-snap: cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  --ease-out-quick: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  --animate-pop-in: pop-in 220ms var(--ease-snap) both;
+  --animate-fade-up: fade-up 200ms var(--ease-out-quick) both;
+  --animate-wiggle: wiggle 380ms ease-in-out;
+  --animate-shimmer: shimmer 1.4s linear infinite;
+
+  @keyframes pop-in {
+    from { opacity: 0; transform: scale(0.85) rotate(-3deg); }
+    to { opacity: 1; transform: scale(1) rotate(0); }
+  }
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(-4deg); }
+    75% { transform: rotate(4deg); }
+  }
+  @keyframes shimmer {
+    from { background-position: -200% 0; }
+    to { background-position: 200% 0; }
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Semantic tokens — switch with the theme.
+   -------------------------------------------------------------------------- */
+@theme inline {
+  --color-bg: var(--tilt-bg);
+  --color-surface: var(--tilt-surface);
+  --color-surface-2: var(--tilt-surface-2);
+  --color-surface-3: var(--tilt-surface-3);
+  --color-line: var(--tilt-line);
+  --color-line-strong: var(--tilt-line-strong);
+  --color-fg: var(--tilt-fg);
+  --color-fg-muted: var(--tilt-fg-muted);
+  --color-fg-subtle: var(--tilt-fg-subtle);
+  --color-primary: var(--tilt-primary);
+  --color-primary-hover: var(--tilt-primary-hover);
+  --color-primary-fg: var(--tilt-primary-fg);
+  --color-primary-soft: var(--tilt-primary-soft);
+  --color-success-soft: var(--tilt-success-soft);
+  --color-danger-soft: var(--tilt-danger-soft);
+  --color-shadow: var(--tilt-shadow);
+  --color-edge: var(--tilt-edge);
+  --color-stage: var(--tilt-stage);
+  --color-stage-fg: var(--tilt-stage-fg);
+}
+
+:root {
+  color-scheme: light;
+  --tilt-bg: #faf6ee;
+  --tilt-surface: #ffffff;
+  --tilt-surface-2: #f3eee3;
+  --tilt-surface-3: #e9e2d3;
+  --tilt-line: #e4ddce;
+  --tilt-line-strong: #17142b;
+  --tilt-fg: #17142b;
+  --tilt-fg-muted: #57536b;
+  --tilt-fg-subtle: #858197;
+  --tilt-primary: #f2471f;
+  --tilt-primary-hover: #d83a14;
+  --tilt-primary-fg: #ffffff;
+  --tilt-primary-soft: #fde4dc;
+  --tilt-success-soft: #dcf5e9;
+  --tilt-danger-soft: #fde2e2;
+  --tilt-shadow: #17142b;
+  --tilt-edge: #17142b;
+  /* "Stage" = live game backdrop: always deep, in both themes. */
+  --tilt-stage: #17142b;
+  --tilt-stage-fg: #faf6ee;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --tilt-bg: #100e1d;
+  --tilt-surface: #1a1730;
+  --tilt-surface-2: #231f3d;
+  --tilt-surface-3: #2e2950;
+  --tilt-line: #322d52;
+  --tilt-line-strong: #f4efe6;
+  --tilt-fg: #f4efe6;
+  --tilt-fg-muted: #b3aec8;
+  --tilt-fg-subtle: #8580a0;
+  --tilt-primary: #ff5a33;
+  --tilt-primary-hover: #ff7350;
+  --tilt-primary-fg: #ffffff;
+  --tilt-primary-soft: #3d1d1d;
+  --tilt-success-soft: #123528;
+  --tilt-danger-soft: #3d1a20;
+  --tilt-shadow: #05040b;
+  --tilt-edge: #07060f;
+  --tilt-stage: #0b0a14;
+  --tilt-stage-fg: #faf6ee;
+}
+
+/* -----------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-bg font-sans text-fg antialiased;
+    font-feature-settings: 'ss01';
+  }
+  h1, h2, h3, h4 {
+    @apply font-display;
+    letter-spacing: -0.02em;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-cobalt);
+    outline-offset: 2px;
+  }
+  [data-theme='dark'] :focus-visible {
+    outline-color: var(--color-lime);
+  }
+  ::selection {
+    background: var(--color-lime);
+    color: var(--color-ink);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+      animation-duration: 1ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 1ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Signature utilities
+   -------------------------------------------------------------------------- */
+
+/* Hard offset shadow — the "block" look of Tilt's interactive elements. */
+@utility shadow-block {
+  box-shadow: 4px 4px 0 0 var(--tilt-shadow);
+}
+@utility shadow-block-sm {
+  box-shadow: 2px 2px 0 0 var(--tilt-shadow);
+}
+@utility shadow-block-lg {
+  box-shadow: 7px 7px 0 0 var(--tilt-shadow);
+}
+
+/* Patterns paint with currentColor; set `text-*` (often with opacity). */
+@utility pattern-stripes {
+  background-image: repeating-linear-gradient(-45deg, currentColor 0 6px, transparent 6px 16px);
+}
+@utility pattern-dots {
+  background-image: radial-gradient(currentColor 2.2px, transparent 2.6px);
+  background-size: 14px 14px;
+}
+@utility pattern-grid {
+  background-image:
+    linear-gradient(currentColor 1.5px, transparent 1.5px),
+    linear-gradient(90deg, currentColor 1.5px, transparent 1.5px);
+  background-size: 18px 18px;
+}
+@utility pattern-waves {
+  background-image: radial-gradient(circle at 50% 100%, transparent 7px, currentColor 7.5px 9.5px, transparent 10px);
+  background-size: 20px 12px;
+}
+@utility pattern-zigzag {
+  background-image:
+    linear-gradient(135deg, currentColor 25%, transparent 25%),
+    linear-gradient(225deg, currentColor 25%, transparent 25%);
+  background-size: 18px 18px;
+  background-position: 0 0, 9px 0;
+}
+@utility pattern-checker {
+  background-image: conic-gradient(currentColor 25%, transparent 0 50%, currentColor 0 75%, transparent 0);
+  background-size: 22px 22px;
+}
+
+@utility skeleton {
+  background: linear-gradient(90deg, var(--tilt-surface-2) 25%, var(--tilt-surface-3) 50%, var(--tilt-surface-2) 75%);
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
