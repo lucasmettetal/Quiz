@@ -6,14 +6,17 @@ import { Button } from '@/components/ui/Button'
 import { TextField } from '@/components/ui/Field'
 import { emailSchema } from '@/features/auth/authForms'
 import { sendPasswordReset } from '@/services/auth'
-import { toAppError } from '@/lib/errors'
+import { toAppError, type AppError } from '@/lib/errors'
+import { applyRateLimit, authErrorMessage, useEmailCooldown } from '@/features/auth/rateLimit'
 import { useT } from '@/i18n/I18nProvider'
 
 export function ForgotPasswordPage() {
   const t = useT()
   const [email, setEmail] = useState('')
   const [invalid, setInvalid] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState<AppError | null>(null)
+  const cooldown = useEmailCooldown()
+  const errorText = authErrorMessage(t, error, cooldown.secondsLeft)
   const [sent, setSent] = useState(false)
   const [loading, setLoading] = useState(false)
 
@@ -27,7 +30,9 @@ export function ForgotPasswordPage() {
       await sendPasswordReset(email.trim())
       setSent(true)
     } catch (err) {
-      setError(t(`errors.${toAppError(err).code}`))
+      const appError = toAppError(err)
+      applyRateLimit(appError, cooldown.start)
+      setError(appError)
     } finally {
       setLoading(false)
     }
@@ -59,13 +64,13 @@ export function ForgotPasswordPage() {
             error={invalid && t('auth.validation.email')}
             autoFocus
           />
-          {error && (
+          {errorText && (
             <p role="alert" className="rounded-md bg-danger-soft px-3 py-2 text-sm font-medium text-danger-ink">
-              {error}
+              {errorText}
             </p>
           )}
-          <Button type="submit" size="lg" loading={loading}>
-            {t('auth.sendLink')}
+          <Button type="submit" size="lg" loading={loading} disabled={cooldown.secondsLeft > 0}>
+            {cooldown.secondsLeft > 0 ? t('auth.retryIn', { seconds: cooldown.secondsLeft }) : t('auth.sendLink')}
           </Button>
         </form>
       )}

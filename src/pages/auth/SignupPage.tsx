@@ -9,7 +9,8 @@ import { GoogleButton } from '@/features/auth/GoogleButton'
 import { safeNext } from '@/features/auth/RequireCreator'
 import { ResendConfirmation } from '@/features/auth/ResendConfirmation'
 import { signUp } from '@/services/auth'
-import { toAppError } from '@/lib/errors'
+import { toAppError, type AppError } from '@/lib/errors'
+import { applyRateLimit, authErrorMessage, useEmailCooldown } from '@/features/auth/rateLimit'
 import { useI18n } from '@/i18n/I18nProvider'
 
 type Fields = 'name' | 'email' | 'password'
@@ -21,7 +22,9 @@ export function SignupPage() {
   const next = safeNext(params.get('next'))
   const [values, setValues] = useState<Record<Fields, string>>({ name: '', email: '', password: '' })
   const [errors, setErrors] = useState<FieldErrors<Fields>>({})
-  const [formError, setFormError] = useState<string | null>(null)
+  const [formError, setFormError] = useState<AppError | null>(null)
+  const cooldown = useEmailCooldown()
+  const formErrorText = authErrorMessage(t, formError, cooldown.secondsLeft)
   const [loading, setLoading] = useState(false)
   const [confirmationSent, setConfirmationSent] = useState(false)
 
@@ -39,7 +42,9 @@ export function SignupPage() {
       if (active) navigate(next, { replace: true })
       else setConfirmationSent(true)
     } catch (err) {
-      setFormError(t(`errors.${toAppError(err).code}`))
+      const appError = toAppError(err)
+      applyRateLimit(appError, cooldown.start)
+      setFormError(appError)
     } finally {
       setLoading(false)
     }
@@ -104,13 +109,13 @@ export function SignupPage() {
           onChange={set('password')}
           error={errors.password && t('auth.validation.password')}
         />
-        {formError && (
+        {formErrorText && (
           <p role="alert" className="rounded-md bg-danger-soft px-3 py-2 text-sm font-medium text-danger-ink">
-            {formError}
+            {formErrorText}
           </p>
         )}
-        <Button type="submit" size="lg" loading={loading}>
-          {t('auth.signup')}
+        <Button type="submit" size="lg" loading={loading} disabled={cooldown.secondsLeft > 0}>
+          {cooldown.secondsLeft > 0 ? t('auth.retryIn', { seconds: cooldown.secondsLeft }) : t('auth.signup')}
         </Button>
       </form>
     </AuthLayout>

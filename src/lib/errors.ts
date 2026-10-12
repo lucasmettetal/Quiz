@@ -60,16 +60,37 @@ export const APP_ERROR_CODES = [
 
 export type AppErrorCode = (typeof APP_ERROR_CODES)[number]
 
+/** Extra information for rate limits (which limit, and how long to wait when known). */
+export interface RateLimitInfo {
+  /** 'user': one e-mail per address per interval; 'project': hourly cap for the whole project. */
+  scope: 'user' | 'project' | 'unknown'
+  retryAfterSeconds: number | null
+}
+
 export class AppError extends Error {
   readonly code: AppErrorCode
   readonly cause?: unknown
+  readonly rateLimit?: RateLimitInfo
 
-  constructor(code: AppErrorCode, cause?: unknown) {
+  constructor(code: AppErrorCode, cause?: unknown, rateLimit?: RateLimitInfo) {
     super(code)
     this.name = 'AppError'
     this.code = code
     this.cause = cause
+    this.rateLimit = rateLimit
   }
+}
+
+/**
+ * Reads Supabase rate-limit messages:
+ *  - "For security purposes, you can only request this after 42 seconds." → per address
+ *  - "email rate limit exceeded" → project-wide hourly e-mail cap
+ */
+export function parseRateLimit(message: string): RateLimitInfo {
+  const wait = message.match(/after\s+(\d+)\s*seconds?/i)
+  if (wait) return { scope: 'user', retryAfterSeconds: Number(wait[1]) }
+  if (/email rate limit exceeded/i.test(message)) return { scope: 'project', retryAfterSeconds: null }
+  return { scope: 'unknown', retryAfterSeconds: null }
 }
 
 const KNOWN = new Set<string>(APP_ERROR_CODES)
@@ -103,7 +124,7 @@ export function toAppError(e: unknown): AppError {
 
   // Supabase Auth (codes: https://supabase.com/docs/guides/auth/debugging/error-codes)
   const status = statusOf(e)
-  if (status === 429 || code.startsWith('over_') || /rate limit|too many requests/i.test(message)) return new AppError('RATE_LIMITED', e)
+  if (status === 429 || code.startsWith('over_') || /rate limit|too many requests/i.test(message)) return new AppError('RATE_LIMITED', e, parseRateLimit(message))
   // supabase-js reports both network failures (status 0) and any 5xx as AuthRetryableFetchError.
   if (nameOf(e) === 'AuthRetryableFetchError') return new AppError(status ? 'UNKNOWN' : 'NETWORK', e)
   if (code === 'same_password') return new AppError('SAME_PASSWORD', e)
