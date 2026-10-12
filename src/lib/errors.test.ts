@@ -21,6 +21,7 @@ describe('toAppError (auth)', () => {
     [{ code: 'otp_expired' }, 'LINK_EXPIRED'],
     [{ name: 'AuthSessionMissingError', message: 'Auth session missing!' }, 'LINK_INVALID'],
     [{ name: 'AuthRetryableFetchError', status: 0, message: 'Failed to fetch' }, 'NETWORK'],
+    [{ name: 'AuthRetryableFetchError', status: 504, message: 'Gateway Timeout' }, 'UNKNOWN'],
   ])('%o → %s', (shape, code) => {
     expect(toAppError(authError(shape)).code).toBe(code)
   })

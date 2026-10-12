@@ -14,6 +14,17 @@ import type { PaletteColor } from '@/lib/palette'
 
 const redirect = (path: string) => authRedirectUrl(path, { siteUrl: env.siteUrl })
 
+/**
+ * For calls that make Supabase send an e-mail: a server error almost always
+ * means the SMTP server failed or timed out (Supabase answers 500/504 and
+ * supabase-js hides the message), so say so instead of "network error".
+ */
+function emailError(error: unknown) {
+  const appError = toAppError(error)
+  const status = error && typeof error === 'object' && 'status' in error ? Number(error.status) : 0
+  return appError.code === 'UNKNOWN' && status >= 500 ? new AppError('EMAIL_SEND_FAILED', error) : appError
+}
+
 /** Where the confirmation e-mail sends people back (flow=signup lets the callback page word things right). */
 export const signupRedirectUrl = () => redirect(`${AUTH_ROUTES.callback}?flow=signup`)
 export const resetRedirectUrl = () => redirect(AUTH_ROUTES.reset)
@@ -34,7 +45,7 @@ export async function signUp(input: { email: string; password: string; displayNa
       emailRedirectTo: signupRedirectUrl(),
     },
   })
-  if (error) throw toAppError(error)
+  if (error) throw emailError(error)
   // With confirmations on, Supabase hides existing accounts by returning a user without identities.
   if (data.user && data.user.identities?.length === 0) throw new AppError('EMAIL_TAKEN')
   return Boolean(data.session)
@@ -42,7 +53,7 @@ export async function signUp(input: { email: string; password: string; displayNa
 
 export async function resendSignupConfirmation(email: string) {
   const { error } = await getSupabase().auth.resend({ type: 'signup', email, options: { emailRedirectTo: signupRedirectUrl() } })
-  if (error) throw toAppError(error)
+  if (error) throw emailError(error)
 }
 
 export async function signInWithGoogle(next = '/app') {
@@ -52,7 +63,7 @@ export async function signInWithGoogle(next = '/app') {
 
 export async function sendPasswordReset(email: string) {
   const { error } = await getSupabase().auth.resetPasswordForEmail(email, { redirectTo: resetRedirectUrl() })
-  if (error) throw toAppError(error)
+  if (error) throw emailError(error)
 }
 
 export async function updatePassword(password: string) {

@@ -55,6 +55,27 @@ describe('redirect URLs sent to Supabase', () => {
   })
 })
 
+describe('SMTP failures', () => {
+  // supabase-js wraps any 5xx in AuthRetryableFetchError and drops the server message.
+  const serverError = (status: number) => Object.assign(new Error(status === 504 ? 'Gateway Timeout' : 'Internal Server Error'), { name: 'AuthRetryableFetchError', status })
+
+  it('reports an e-mail sending failure, not a network error, when Supabase answers 5xx', async () => {
+    auth.resetPasswordForEmail.mockResolvedValue({ error: serverError(500) })
+    await expect(sendPasswordReset('a@b.fr')).rejects.toMatchObject({ code: 'EMAIL_SEND_FAILED' })
+    auth.resetPasswordForEmail.mockResolvedValue({ error: serverError(504) })
+    await expect(sendPasswordReset('a@b.fr')).rejects.toMatchObject({ code: 'EMAIL_SEND_FAILED' })
+    auth.resend.mockResolvedValue({ error: serverError(500) })
+    await expect(resendSignupConfirmation('a@b.fr')).rejects.toMatchObject({ code: 'EMAIL_SEND_FAILED' })
+    auth.signUp.mockResolvedValue({ data: { user: null, session: null }, error: serverError(500) })
+    await expect(signUp({ email: 'a@b.fr', password: 'motdepasse', displayName: 'L', locale: 'fr' })).rejects.toMatchObject({ code: 'EMAIL_SEND_FAILED' })
+  })
+
+  it('still reports a real network failure as such', async () => {
+    auth.resetPasswordForEmail.mockResolvedValue({ error: Object.assign(new Error('Failed to fetch'), { name: 'AuthRetryableFetchError', status: 0 }) })
+    await expect(sendPasswordReset('a@b.fr')).rejects.toMatchObject({ code: 'NETWORK' })
+  })
+})
+
 describe('completeAuthRedirect', () => {
   it('exchanges a PKCE code once and cleans the URL', async () => {
     auth.exchangeCodeForSession.mockResolvedValue({ error: null })

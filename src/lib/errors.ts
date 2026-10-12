@@ -104,7 +104,8 @@ export function toAppError(e: unknown): AppError {
   // Supabase Auth (codes: https://supabase.com/docs/guides/auth/debugging/error-codes)
   const status = statusOf(e)
   if (status === 429 || code.startsWith('over_') || /rate limit|too many requests/i.test(message)) return new AppError('RATE_LIMITED', e)
-  if (nameOf(e) === 'AuthRetryableFetchError') return new AppError('NETWORK', e)
+  // supabase-js reports both network failures (status 0) and any 5xx as AuthRetryableFetchError.
+  if (nameOf(e) === 'AuthRetryableFetchError') return new AppError(status ? 'UNKNOWN' : 'NETWORK', e)
   if (code === 'same_password') return new AppError('SAME_PASSWORD', e)
   if (code === 'email_address_invalid' || /invalid format|email address.*invalid/i.test(message)) return new AppError('EMAIL_INVALID', e)
   // SMTP misconfigured, or Supabase's default mailer refusing non-team addresses.
