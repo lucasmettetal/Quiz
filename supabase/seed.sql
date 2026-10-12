@@ -17,7 +17,7 @@ begin
                           confirmation_token, recovery_token, email_change_token_new, email_change)
   values ('00000000-0000-0000-0000-000000000000', demo, 'authenticated', 'authenticated', 'demo@tilt.dev',
           extensions.crypt('tilt-demo-2026', extensions.gen_salt('bf')), now(),
-          '{"provider":"email","providers":["email"]}', '{"display_name":"Démo Tilt"}', now(), now(), '', '', '', '')
+          '{"provider":"email","providers":["email"]}', '{"display_name":"Démo Tiltt"}', now(), now(), '', '', '', '')
   on conflict (id) do nothing;
 
   insert into auth.identities (id, user_id, provider_id, identity_data, provider, last_sign_in_at, created_at, updated_at)

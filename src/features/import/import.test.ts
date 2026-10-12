@@ -91,7 +91,7 @@ describe('spreadsheet import', () => {
     ])
   })
 
-  it('reads Tilt’s template', () => {
+  it('reads Tiltt’s template', () => {
     const csv = [
       'Type,Question,Réponse 1,Réponse 2,Réponse 3,Réponse 4,Bonne(s) réponse(s),Temps (s),Points',
       'quiz,Capitale du Portugal ?,Porto,Lisbonne,Madrid,,2,20,double',

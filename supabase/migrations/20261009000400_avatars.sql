@@ -1,5 +1,5 @@
 -- =============================================================================
--- Tilt — modular avatars
+-- Tiltt — modular avatars
 --
 -- An avatar is a small JSON config (parts + colors) rendered as SVG by the
 -- app (src/features/avatars). Nothing is stored as an image.

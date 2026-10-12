@@ -1,5 +1,5 @@
 /**
- * Kahoot → Tilt conversion.
+ * Kahoot → Tiltt conversion.
  *
  * The raw JSON comes from Kahoot's public (undocumented) endpoint, fetched by
  * the `import-kahoot` Edge Function. Its shape may change without notice, so

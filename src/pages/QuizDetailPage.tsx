@@ -45,7 +45,7 @@ export function QuizDetailPage() {
         <Link to={isCreator ? '/app/explore' : '/'} className="inline-flex items-center gap-2 text-sm font-semibold text-fg-muted hover:text-fg">
           <ArrowLeft className="size-4" /> {t('common.back')}
         </Link>
-        <Link to="/" aria-label="Tilt">
+        <Link to="/" aria-label="Tiltt">
           <Logo />
         </Link>
       </header>

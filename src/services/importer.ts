@@ -1,5 +1,5 @@
 /**
- * Importing quizzes from outside Tilt.
+ * Importing quizzes from outside Tiltt.
  *
  * Sources are isolated behind small functions so a fragile one (Kahoot's
  * undocumented endpoint, reached through the `import-kahoot` Edge Function)

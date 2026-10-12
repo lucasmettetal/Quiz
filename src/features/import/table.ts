@@ -1,7 +1,7 @@
 /**
  * Spreadsheet import (CSV or XLSX, already read into rows of strings).
  *
- * Understands Tilt's own template and Kahoot's spreadsheet template
+ * Understands Tiltt's own template and Kahoot's spreadsheet template
  * ("Question – max 120 characters", "Answer 1…4", "Time limit (sec)",
  * "Correct answer(s)"), in French or English, by matching header names.
  */
@@ -188,7 +188,7 @@ export function tableToDraft(rows: string[][], fileName: string): ImportDraft {
   }
 }
 
-/** Tilt's import template (header + one example per type), in the UI language. */
+/** Tiltt's import template (header + one example per type), in the UI language. */
 export function templateRows(labels: {
   type: string
   question: string

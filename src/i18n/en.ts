@@ -2,7 +2,7 @@ import type { Messages } from './fr'
 
 export const en: Messages = {
   common: {
-    appName: 'Tilt',
+    appName: 'Tiltt',
     tagline: 'The quiz that clicks.',
     loading: 'Loading…',
     retry: 'Try again',
@@ -73,7 +73,7 @@ export const en: Messages = {
     typesLead: 'Test what the room knows, or collect what it thinks.',
     audienceTitle: 'From classrooms to boardrooms',
     audienceText:
-      'Revision, training, onboarding, offsites or game night: Tilt fits the audience without ever feeling childish.',
+      'Revision, training, onboarding, offsites or game night: Tiltt fits the audience without ever feeling childish.',
     finalTitle: 'Your first quiz is two minutes away.',
     finalCta: 'Start for free',
     footer: 'Made for learning by playing.',
@@ -561,7 +561,7 @@ export const en: Messages = {
   time: { justNow: 'just now' },
   errors: {
     title: 'Oops.',
-    CONFIG_MISSING: 'Tilt is not connected to its database yet. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in .env.local.',
+    CONFIG_MISSING: 'Tiltt is not connected to its database yet. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in .env.local.',
     NETWORK: "Can't connect. Check your network and try again.",
     NOT_FOUND: 'Not found.',
     NOT_AUTHORIZED: "You don't have access to this.",

@@ -1,5 +1,5 @@
 -- =============================================================================
--- Tilt — core schema
+-- Tiltt — core schema
 -- Tables, constraints, indexes and Row Level Security.
 -- Game logic (RPC functions) lives in 20261009000200_game_engine.sql.
 -- =============================================================================

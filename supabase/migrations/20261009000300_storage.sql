@@ -1,5 +1,5 @@
 -- =============================================================================
--- Tilt — media storage
+-- Tiltt — media storage
 -- Public-read bucket (players, often anonymous, must see question images),
 -- objects stored under "<user id>/<random uuid>.<ext>" so paths are not
 -- guessable, and each user can only write in their own folder.

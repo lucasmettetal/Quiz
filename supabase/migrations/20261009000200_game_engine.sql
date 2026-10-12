@@ -1,5 +1,5 @@
 -- =============================================================================
--- Tilt — game engine & quiz RPCs
+-- Tiltt — game engine & quiz RPCs
 --
 -- The database is the single authority for a live game:
 --   * state transitions follow the machine mirrored in

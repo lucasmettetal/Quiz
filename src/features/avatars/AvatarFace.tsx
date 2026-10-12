@@ -45,7 +45,7 @@ export const AvatarFace = memo(function AvatarFace({ config, size = 40, title, c
         <clipPath id={clipId}>{head.shape({})}</clipPath>
       </defs>
       <g transform={`rotate(${head.rotate} 50 58)`}>
-        {/* hard offset shadow, Tilt's signature */}
+        {/* hard offset shadow, Tiltt's signature */}
         <g transform="translate(4 4)">{head.shape({ fill: INK })}</g>
         {head.shape({ fill: primary })}
         {hasPattern && <g clipPath={`url(#${clipId})`}>{head.shape({ fill: `url(#${patternId})`, opacity: 0.55 })}</g>}

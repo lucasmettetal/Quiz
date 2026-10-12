@@ -14,7 +14,7 @@ export function AuthLayout({ title, lead, children, footer }: { title: string; l
     <div className="grid min-h-dvh lg:grid-cols-[1fr_minmax(0,560px)]">
       {/* Brand panel (desktop) */}
       <aside className="relative hidden overflow-hidden bg-stage p-12 text-stage-fg lg:flex lg:flex-col">
-        <Link to="/" aria-label="Tilt">
+        <Link to="/" aria-label="Tiltt">
           <Logo className="text-4xl" />
         </Link>
         <div className="relative my-auto">
@@ -41,7 +41,7 @@ export function AuthLayout({ title, lead, children, footer }: { title: string; l
       </aside>
 
       <main className="flex flex-col px-5 py-6 sm:px-10">
-        <Link to="/" aria-label="Tilt" className="self-start lg:hidden">
+        <Link to="/" aria-label="Tiltt" className="self-start lg:hidden">
           <Logo className="text-3xl" />
         </Link>
         <div className="mx-auto my-auto w-full max-w-sm animate-fade-up py-10">

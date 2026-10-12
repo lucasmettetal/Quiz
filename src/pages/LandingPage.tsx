@@ -12,7 +12,7 @@ import { ANSWER_SLOTS, type PaletteColor, type PatternName } from '@/lib/palette
 
 function HeroIllustration() {
   const { t } = useI18n()
-  // Four answer tiles in Tilt's slot system + a countdown: the product in one glance.
+  // Four answer tiles in Tiltt's slot system + a countdown: the product in one glance.
   return (
     <div role="img" aria-label={t('landing.illustrationLabel')} className="pointer-events-none relative h-full w-full select-none">
       {ANSWER_SLOTS.slice(0, 4).map((slot, i) => {
@@ -68,7 +68,7 @@ export function LandingPage() {
   return (
     <div className="min-h-dvh overflow-x-clip bg-bg">
       <header className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
-        <Link to="/" aria-label="Tilt">
+        <Link to="/" aria-label="Tiltt">
           <Logo className="text-3xl" />
         </Link>
         <nav className="flex items-center gap-1 sm:gap-2">

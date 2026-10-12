@@ -188,7 +188,7 @@
    Signature utilities
    -------------------------------------------------------------------------- */
 
-/* Hard offset shadow — the "block" look of Tilt's interactive elements. */
+/* Hard offset shadow — the "block" look of Tiltt's interactive elements. */
 @utility shadow-block {
   box-shadow: 4px 4px 0 0 var(--tilt-shadow);
 }

@@ -44,9 +44,9 @@ export function EditorPage() {
   }, [session.restoredDraft, t])
 
   useEffect(() => {
-    document.title = `${title || t('quizzes.untitled')} — Tilt`
+    document.title = `${title || t('quizzes.untitled')} — Tiltt`
     return () => {
-      document.title = 'Tilt'
+      document.title = 'Tiltt'
     }
   }, [title, t])
 

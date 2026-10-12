@@ -151,7 +151,7 @@ export function ReportPage() {
     })
     const date = new Date(session.created_at).toISOString().slice(0, 10)
     const slug = session.quiz_title.toLowerCase().normalize('NFD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'quiz'
-    downloadCsv(`tilt-${slug}-${date}.csv`, csv)
+    downloadCsv(`tiltt-${slug}-${date}.csv`, csv)
   }
 
   return (

@@ -4,7 +4,7 @@
  */
 export const fr = {
   common: {
-    appName: 'Tilt',
+    appName: 'Tiltt',
     tagline: 'Le quiz qui fait tilt.',
     loading: 'Chargement…',
     retry: 'Réessayer',
@@ -84,7 +84,7 @@ export const fr = {
     typesLead: 'Tester ce que la salle sait, ou recueillir ce qu’elle pense.',
     audienceTitle: 'Du collège à la salle de réunion',
     audienceText:
-      'Révisions en classe, formation, onboarding, séminaire ou soirée entre amis : Tilt s’adapte au public sans jamais devenir enfantin.',
+      'Révisions en classe, formation, onboarding, séminaire ou soirée entre amis : Tiltt s’adapte au public sans jamais devenir enfantin.',
     finalTitle: 'Ton premier quiz est à deux minutes.',
     finalCta: 'Commencer gratuitement',
     footer: 'Fait pour apprendre en jouant.',
@@ -602,7 +602,7 @@ export const fr = {
   },
   errors: {
     title: 'Oups.',
-    CONFIG_MISSING: 'Tilt n’est pas encore relié à sa base de données. Renseigne VITE_SUPABASE_URL et VITE_SUPABASE_ANON_KEY dans .env.local.',
+    CONFIG_MISSING: 'Tiltt n’est pas encore relié à sa base de données. Renseigne VITE_SUPABASE_URL et VITE_SUPABASE_ANON_KEY dans .env.local.',
     NETWORK: 'Connexion impossible. Vérifie ton réseau puis réessaie.',
     NOT_FOUND: 'Introuvable.',
     NOT_AUTHORIZED: 'Tu n’as pas accès à cette ressource.',

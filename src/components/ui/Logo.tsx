@@ -1,7 +1,7 @@
 import { cn } from '@/lib/cn'
 
 /**
- * Wordmark: "tilt" set in the display face, the dot of the i replaced by a
+ * Wordmark: "tiltt" set in the display face, the dot of the i replaced by a
  * tilted vermilion square — the brand's recurring shape.
  */
 export function Logo({ className, mono = false }: { className?: string; mono?: boolean }) {
@@ -17,8 +17,8 @@ export function Logo({ className, mono = false }: { className?: string; mono?: b
           )}
         />
       </span>
-      <span aria-hidden="true">lt</span>
-      <span className="sr-only">Tilt</span>
+      <span aria-hidden="true">ltt</span>
+      <span className="sr-only">Tiltt</span>
     </span>
   )
 }

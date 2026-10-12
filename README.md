@@ -1,4 +1,4 @@
-# Tilt — le quiz qui fait tilt
+# Tiltt — le quiz qui fait tilt
 
 Plateforme de quiz interactifs en temps réel : on crée un quiz, on le projette, toute la salle répond depuis son téléphone.
 
@@ -49,7 +49,7 @@ Les e-mails d'authentification (confirmation d'inscription, mot de passe oublié
 | Username | `resend` |
 | Password | ta clé API Resend |
 | Sender email | une adresse de ton domaine vérifié, ex. `no-reply@ton-domaine.fr` |
-| Sender name | `Tilt` |
+| Sender name | `Tiltt` |
 
 Puis **Authentication → Rate Limits** : ajuste « Rate limit for sending emails » (Supabase le relève une fois le SMTP externe activé).
 

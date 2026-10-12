@@ -33,9 +33,9 @@ export function HostPage() {
   const session = game.session.data
 
   useEffect(() => {
-    if (session) document.title = `${formatPin(session.pin)} · ${session.quiz_title} — Tilt`
+    if (session) document.title = `${formatPin(session.pin)} · ${session.quiz_title} — Tiltt`
     return () => {
-      document.title = 'Tilt'
+      document.title = 'Tiltt'
     }
   }, [session])
 

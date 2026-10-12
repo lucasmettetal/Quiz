@@ -97,7 +97,7 @@ export function ImportPage() {
     const href = URL.createObjectURL(new Blob([toCsv(rows)], { type: 'text/csv;charset=utf-8' }))
     const a = document.createElement('a')
     a.href = href
-    a.download = 'tilt-modele-import.csv'
+    a.download = 'tiltt-modele-import.csv'
     a.click()
     URL.revokeObjectURL(href)
   }

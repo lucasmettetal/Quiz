@@ -108,7 +108,7 @@ export function JoinPage() {
   return (
     <div className="flex min-h-dvh flex-col bg-stage px-5 pt-[max(env(safe-area-inset-top),1rem)] pb-6 text-stage-fg">
       <header className="flex items-center justify-between">
-        <Link to="/" aria-label="Tilt">
+        <Link to="/" aria-label="Tiltt">
           <Logo className="text-3xl text-paper" />
         </Link>
       </header>

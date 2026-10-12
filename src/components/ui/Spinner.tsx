@@ -1,6 +1,6 @@
 import { cn } from '@/lib/cn'
 
-/** Two tilted squares chasing each other — Tilt's loader. */
+/** Two tilted squares chasing each other — Tiltt's loader. */
 export function Spinner({ className, label }: { className?: string; label?: string }) {
   return (
     <span role={label ? 'status' : undefined} aria-label={label} className={cn('inline-block size-5', className)}>

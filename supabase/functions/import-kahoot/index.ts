@@ -3,7 +3,7 @@
 // Fetches a PUBLIC kahoot by URL and returns its raw content. This is the
 // only place that knows about Kahoot's undocumented endpoint: if it changes or
 // disappears, only this file needs updating, and the app falls back to the
-// CSV/XLSX import. Conversion to Tilt's format happens client-side
+// CSV/XLSX import. Conversion to Tiltt's format happens client-side
 // (src/features/import/kahoot.ts) where it is unit-tested.
 //
 // Safety: only signed-in creators may call it, only kahoot.it UUIDs are
@@ -70,7 +70,7 @@ Deno.serve(async (req) => {
   let res: Response
   try {
     res = await fetch(KAHOOT_ENDPOINT(id), {
-      headers: { Accept: 'application/json', 'User-Agent': 'Tilt quiz importer' },
+      headers: { Accept: 'application/json', 'User-Agent': 'Tiltt quiz importer' },
       signal: AbortSignal.timeout(8000),
     })
   } catch {

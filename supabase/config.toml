@@ -44,7 +44,7 @@ enable_confirmations = false
 # user = "resend"
 # pass = "env(SUPABASE_AUTH_SMTP_PASS)"
 # admin_email = "no-reply@your-domain.com"
-# sender_name = "Tilt"
+# sender_name = "Tiltt"
 
 [auth.external.google]
 enabled = false
