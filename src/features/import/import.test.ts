@@ -56,6 +56,15 @@ describe('convertKahoot', () => {
     expect(questionIssues(q1!)).toEqual([])
   })
 
+  it('drops images that are not hosted by Kahoot', () => {
+    const draft = convertKahoot({
+      title: 'Pièges', cover: 'https://tracker.example/cover.png',
+      questions: [{ type: 'quiz', question: 'Q ?', image: 'https://tracker.example/q.jpg', choices: [{ answer: 'A', correct: true }, { answer: 'B' }] }],
+    })
+    expect(draft.coverImageUrl).toBeNull()
+    expect(draft.questions[0]!.media).toBeNull()
+  })
+
   it('reports what could not be imported', () => {
     const { warnings } = convertKahoot(raw)
     expect(warnings).toEqual(

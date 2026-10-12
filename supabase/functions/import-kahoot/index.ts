@@ -6,7 +6,7 @@
 // CSV/XLSX import. Conversion to Tiltt's format happens client-side
 // (src/features/import/kahoot.ts) where it is unit-tested.
 //
-// Safety: only signed-in creators may call it, only kahoot.it UUIDs are
+// Safety: only signed-in creators may call it, from allowed origins only, only kahoot.it UUIDs are
 // accepted (never an arbitrary URL → no open proxy / SSRF), responses are
 // size-limited and trimmed to the fields we use.
 //
@@ -18,14 +18,25 @@ const KAHOOT_ENDPOINT = (id: string) => `https://create.kahoot.it/rest/kahoots/$
 const UUID = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i
 const MAX_BYTES = 2_000_000
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': Deno.env.get('ALLOWED_ORIGIN') ?? '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+// Comma-separated list of origins allowed to call this function from a
+// browser. Override with the ALLOWED_ORIGINS secret (never a wildcard).
+const ALLOWED_ORIGINS = (Deno.env.get('ALLOWED_ORIGINS') ?? Deno.env.get('ALLOWED_ORIGIN') ?? 'https://www.tiltt.fr,https://tiltt.fr,http://localhost:5173')
+  .split(',')
+  .map((o) => o.trim())
+  .filter((o) => o && o !== '*')
+
+function corsFor(req: Request): Record<string, string> {
+  const origin = req.headers.get('Origin') ?? ''
+  return {
+    ...(ALLOWED_ORIGINS.includes(origin) ? { 'Access-Control-Allow-Origin': origin } : {}),
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    Vary: 'Origin',
+  }
 }
 
-function reply(status: number, body: unknown) {
-  return new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
+function replyWith(cors: Record<string, string>, status: number, body: unknown) {
+  return new Response(JSON.stringify(body), { status, headers: { ...cors, 'Content-Type': 'application/json' } })
 }
 
 /** Same rules as extractKahootId() in the app. */
@@ -46,6 +57,9 @@ type Json = Record<string, unknown>
 const pick = (obj: Json, keys: string[]) => Object.fromEntries(keys.filter((k) => k in obj).map((k) => [k, obj[k]]))
 
 Deno.serve(async (req) => {
+  // Per request: concurrent requests may come from different origins.
+  const corsHeaders = corsFor(req)
+  const reply = (status: number, body: unknown) => replyWith(corsHeaders, status, body)
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders })
   if (req.method !== 'POST') return reply(405, { code: 'INVALID_PAYLOAD' })
 

@@ -1,6 +1,7 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { env, isSupabaseConfigured } from './env'
 import { AppError } from './errors'
+import { isAllowedExternalMedia } from './media'
 
 const client: SupabaseClient | null = isSupabaseConfigured
   ? createClient(env.supabaseUrl, env.supabaseAnonKey, {
@@ -19,8 +20,9 @@ export const MEDIA_BUCKET = 'quiz-media'
 
 export function mediaPublicUrl(path: string | null | undefined): string | null {
   if (!path) return null
-  // Imported media may still point to their original https URL.
-  if (path.startsWith('https://')) return path
+  // Imported media may still point to Kahoot's image CDN. Any other external
+  // URL is ignored: players' browsers must not be sent to arbitrary hosts.
+  if (path.includes('://')) return isAllowedExternalMedia(path) ? path : null
   if (!client) return null
   return client.storage.from(MEDIA_BUCKET).getPublicUrl(path).data.publicUrl
 }

@@ -26,4 +26,11 @@ describe('joinSession', () => {
     })
     expect(player.avatar_config).toEqual(serializeAvatar(avatar))
   })
+
+  it('maps the empty row of an unknown PIN to PIN_NOT_FOUND', async () => {
+    single.mockResolvedValue({ data: { id: null, session_id: null }, error: null })
+    await expect(joinSession('999999', 'Zoé', generateAvatarFromSeed('Zoé'))).rejects.toMatchObject({ code: 'PIN_NOT_FOUND' })
+    single.mockResolvedValue({ data: null, error: null })
+    await expect(joinSession('999999', 'Zoé', generateAvatarFromSeed('Zoé'))).rejects.toMatchObject({ code: 'PIN_NOT_FOUND' })
+  })
 })

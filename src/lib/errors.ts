@@ -36,6 +36,7 @@ export const APP_ERROR_CODES = [
   // games
   'PIN_NOT_FOUND',
   'PIN_EXHAUSTED',
+  'TOO_MANY_GAMES',
   'NICKNAME_TAKEN',
   'NICKNAME_INVALID',
   'GAME_FINISHED',

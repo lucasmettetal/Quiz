@@ -77,6 +77,8 @@ export const en: Messages = {
     finalTitle: 'Your first quiz is two minutes away.',
     finalCta: 'Start for free',
     footer: 'Made for learning by playing.',
+    legalNotice: 'Legal notice',
+    privacy: 'Privacy',
     illustrationLabel: 'Illustration: four colored answers and a timer',
   },
   auth: {
@@ -589,6 +591,7 @@ export const en: Messages = {
     MEDIA_TOO_LARGE: 'Image too large: 5 MB max.',
     PIN_NOT_FOUND: 'No game with this PIN. Check the digits on screen.',
     PIN_EXHAUSTED: "Couldn't generate a PIN. Try again.",
+    TOO_MANY_GAMES: 'You already have too many games running. End one before starting another.',
     NICKNAME_TAKEN: 'This nickname is taken in this game. Try a variant!',
     NICKNAME_INVALID: 'Pick a nickname (24 characters max).',
     GAME_FINISHED: 'This game is over.',

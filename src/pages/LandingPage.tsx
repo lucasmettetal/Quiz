@@ -221,6 +221,10 @@ export function LandingPage() {
             <Logo />
             <span className="text-sm text-fg-muted">{t('landing.footer')}</span>
           </div>
+          <nav aria-label={t('landing.legalNotice')} className="flex gap-4 text-sm text-fg-muted">
+            <Link to="/mentions-legales" className="hover:text-fg hover:underline">{t('landing.legalNotice')}</Link>
+            <Link to="/confidentialite" className="hover:text-fg hover:underline">{t('landing.privacy')}</Link>
+          </nav>
           <SegmentedControl
             label={t('locale.label')}
             size="sm"

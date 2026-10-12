@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { getSupabase } from '@/lib/supabase'
-import { toAppError } from '@/lib/errors'
+import { AppError, toAppError } from '@/lib/errors'
 import { safeStorage } from '@/lib/storage'
 import { GAME_STATES } from '@/features/game/engine/stateMachine'
 import { parsePublicQuestion, parseSolution, type PublicQuestion, type Solution } from '@/features/questions/public'
@@ -19,7 +19,10 @@ const foundSessionSchema = z
   .nullable()
 export type FoundSession = NonNullable<z.infer<typeof foundSessionSchema>>
 
-/** Looks a PIN up without needing an identity (null = no such running game). */
+/**
+ * Looks a PIN up (null = no such running game). Needs an identity: the caller
+ * signs in anonymously first, so failed lookups can be rate-limited per user.
+ */
 export async function findSession(pin: string): Promise<FoundSession | null> {
   const { data, error } = await getSupabase().rpc('find_session', { p_pin: pin })
   if (error) throw toAppError(error)
@@ -31,6 +34,9 @@ export async function joinSession(pin: string, nickname: string, avatar: AvatarC
     .rpc('join_session', { p_pin: pin, p_nickname: nickname, p_avatar: avatar.primary, p_avatar_config: serializeAvatar(avatar) })
     .single()
   if (error) throw toAppError(error)
+  // An unknown PIN comes back as an empty row (the server records the miss
+  // for its rate limit instead of raising).
+  if (!data || (data as { id?: unknown }).id == null) throw new AppError('PIN_NOT_FOUND')
   const player = playerSchema.parse(data)
   rememberPlayer(player.session_id, pin)
   return player

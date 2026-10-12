@@ -69,6 +69,8 @@ export const router = createBrowserRouter([
       { path: '/join', lazy: page(() => import('@/pages/JoinPage'), (m) => m.JoinPage) },
       { path: '/join/:pin', lazy: page(() => import('@/pages/JoinPage'), (m) => m.JoinPage) },
       { path: '/play/:sessionId', lazy: page(() => import('@/pages/PlayPage'), (m) => m.PlayPage) },
+      { path: '/mentions-legales', lazy: page(() => import('@/pages/LegalPage'), (m) => m.LegalNoticePage) },
+      { path: '/confidentialite', lazy: page(() => import('@/pages/LegalPage'), (m) => m.PrivacyPage) },
       { path: '/quiz/:quizId', lazy: page(() => import('@/pages/QuizDetailPage'), (m) => m.QuizDetailPage) },
       { path: '*', lazy: page(() => import('@/pages/NotFoundPage'), (m) => m.NotFoundPage) },
     ],

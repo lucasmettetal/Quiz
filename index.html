@@ -7,14 +7,7 @@
     <meta name="theme-color" content="#17142b" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>Tiltt — le quiz qui fait tilt</title>
-    <script>
-      // Apply the theme before first paint to avoid a light/dark flash.
-      try {
-        var p = localStorage.getItem('tilt.theme')
-        var dark = p === 'dark' || ((!p || p === 'system') && matchMedia('(prefers-color-scheme: dark)').matches)
-        document.documentElement.dataset.theme = dark ? 'dark' : 'light'
-      } catch (e) {}
-    </script>
+    <script src="/theme-init.js"></script>
   </head>
   <body>
     <div id="root"></div>

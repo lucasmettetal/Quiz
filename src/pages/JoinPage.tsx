@@ -63,7 +63,9 @@ export function JoinPage() {
   useEffect(() => {
     if (!pin) return
     let cancelled = false
-    findSession(pin)
+    // An identity is required before looking a PIN up (server-side rate limit).
+    ensurePlayerIdentity()
+      .then(() => findSession(pin))
       .then((s) => {
         if (cancelled) return
         if (!s) setError('PIN_NOT_FOUND')

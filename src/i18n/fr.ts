@@ -88,6 +88,8 @@ export const fr = {
     finalTitle: 'Ton premier quiz est à deux minutes.',
     finalCta: 'Commencer gratuitement',
     footer: 'Fait pour apprendre en jouant.',
+    legalNotice: 'Mentions légales',
+    privacy: 'Confidentialité',
     illustrationLabel: 'Illustration : quatre réponses colorées et un chronomètre',
   },
   auth: {
@@ -630,6 +632,7 @@ export const fr = {
     MEDIA_TOO_LARGE: 'Image trop lourde : 5 Mo maximum.',
     PIN_NOT_FOUND: 'Aucune partie avec ce PIN. Vérifie les chiffres à l’écran.',
     PIN_EXHAUSTED: 'Impossible de générer un PIN. Réessaie.',
+    TOO_MANY_GAMES: 'Tu as déjà trop de parties en cours. Termine-en une avant d’en lancer une nouvelle.',
     NICKNAME_TAKEN: 'Ce pseudo est déjà pris dans la partie. Essaie une variante !',
     NICKNAME_INVALID: 'Choisis un pseudo (24 caractères max).',
     GAME_FINISHED: 'Cette partie est terminée.',

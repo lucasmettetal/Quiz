@@ -7,6 +7,7 @@
  * warning instead of a crash. This module is pure and unit-tested.
  */
 import { z } from 'zod'
+import { isAllowedExternalMedia } from '@/lib/media'
 import { MAX_OPTIONS } from '@/features/questions/definitions'
 import { newOptionId, type Question } from '@/features/questions/model'
 import { nearestTimeLimit, parseBooleanWord, plainText, pointsFrom, type ImportDraft, type ImportWarning } from './model'
@@ -59,7 +60,7 @@ export const kahootSchema = z.object({
 export type RawKahoot = z.infer<typeof kahootSchema>
 
 function httpsUrl(value: string | undefined): string | null {
-  return value && /^https:\/\//.test(value) ? value : null
+  return value && isAllowedExternalMedia(value) ? value : null
 }
 
 export function convertKahoot(raw: unknown): ImportDraft {

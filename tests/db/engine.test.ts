@@ -67,17 +67,19 @@ describe('game engine (PostgreSQL)', () => {
     expect(session.pin).toMatch(/^[1-9]\d{5}$/)
     expect(session.state).toBe('LOBBY')
 
-    // Signed-out visitor checks the PIN.
-    const found = await db.rpc<{ session_id: string; reason: string | null }>(null, 'find_session', { p_pin: session.pin })
+    // A visitor (anonymous identity) checks the PIN.
+    const visitor = await db.createUser({ anonymous: true })
+    const found = await db.rpc<{ session_id: string; reason: string | null }>(visitor, 'find_session', { p_pin: session.pin })
     expect(found).toMatchObject({ session_id: session.id, reason: null })
-    expect(await db.rpc(null, 'find_session', { p_pin: '000000' })).toBeNull()
+    expect(await db.rpc(visitor, 'find_session', { p_pin: '000000' })).toBeNull()
 
     const alice = await db.createUser({ anonymous: true })
     const bob = await db.createUser({ anonymous: true })
     const pAlice = await db.rpcRow<Player>(alice, 'join_session', { p_pin: session.pin, p_nickname: '  Alice  ' })
     expect(pAlice.nickname).toBe('Alice')
     await expect(db.rpcRow(bob, 'join_session', { p_pin: session.pin, p_nickname: 'alice' })).rejects.toThrow('NICKNAME_TAKEN')
-    await expect(db.rpcRow(bob, 'join_session', { p_pin: '999999', p_nickname: 'Bob' })).rejects.toThrow('PIN_NOT_FOUND')
+    // Unknown PIN: empty row (the app maps it to PIN_NOT_FOUND), so the miss is recorded.
+    expect((await db.rpcRow<Player>(bob, 'join_session', { p_pin: '999999', p_nickname: 'Bob' })).id).toBeNull()
     const pBob = await db.rpcRow<Player>(bob, 'join_session', { p_pin: session.pin, p_nickname: 'Bob' })
 
     // Rejoining (refresh) returns the same player.
@@ -175,7 +177,7 @@ describe('game engine (PostgreSQL)', () => {
     await expect(db.rpcRow(lateVisitor, 'join_session', { p_pin: session.pin, p_nickname: 'Dan' })).rejects.toThrow('GAME_FINISHED')
 
     await advance() // → FINISHED
-    expect(await db.rpc(null, 'find_session', { p_pin: session.pin })).toBeNull()
+    expect(await db.rpc(visitor, 'find_session', { p_pin: session.pin })).toBeNull()
 
     const [quiz] = await db.query<{ play_count: number }>('select play_count from public.quizzes where id = $1', [quizId])
     expect(quiz!.play_count).toBe(1)

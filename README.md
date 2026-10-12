@@ -78,6 +78,14 @@ Les templates d'e-mail par défaut de Supabase (`{{ .ConfirmationURL }}`) foncti
 
 `vercel.json` renvoie toutes les routes vers `index.html` : `/auth/reset`, `/auth/callback`, `/app`, `/join/…` s'ouvrent directement, y compris depuis un e-mail. Seules les variables `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` (et éventuellement `VITE_ENABLE_GOOGLE_AUTH`, `VITE_PUBLIC_SITE_URL`) sont à définir dans Vercel.
 
+### Sécurité (à vérifier à chaque déploiement)
+
+- **Migrations** : applique toutes les migrations de `supabase/migrations` (`supabase db push`), y compris `…_security_hardening.sql` et `…_storage_hardening.sql`.
+- **En-têtes** : `vercel.json` envoie une Content-Security-Policy stricte (pas de script inline, pas d'`eval`). Les seules sources externes autorisées sont `*.supabase.co` et `*.kahoot.it`. Ajoute un domaine ici avant d'en charger un nouveau.
+- **Edge function `import-kahoot`** : les origines autorisées viennent du secret `ALLOWED_ORIGINS` (liste séparée par des virgules). Sans lui, seuls `https://www.tiltt.fr`, `https://tiltt.fr` et `http://localhost:5173` sont acceptés. Redéploie après modification : `supabase functions deploy import-kahoot`.
+- **Recherche de PIN** : elle demande une identité (connexion anonyme) et est limitée à 20 PIN inconnus par utilisateur sur 10 minutes. Garde aussi la limite de connexions anonymes par IP de Supabase (Authentication → Rate Limits).
+- **Compte de démo** : `seed.sql` ne doit jamais être exécuté en production (mot de passe public).
+
 ### 5. Tester
 
 1. **Inscription** : crée un compte avec une vraie adresse → écran « vérifie ta boîte mail » → l'e-mail arrive (vérifie l'expéditeur et les spams) → le lien ouvre `/auth/callback` puis le tableau de bord.
