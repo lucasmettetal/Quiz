@@ -273,6 +273,52 @@ begin
 end;
 $$;
 
+-- -----------------------------------------------------------------------------
+-- 5. Answer validation never returns NULL
+-- A payload missing its key (e.g. {} for a quiz question) made the checks
+-- evaluate to NULL, and `if not NULL` let the answer through. Every branch
+-- now yields a real boolean.
+-- -----------------------------------------------------------------------------
+
+create or replace function public.answer_is_well_formed(p_type text, p_content jsonb, p_answer jsonb)
+returns boolean
+language plpgsql
+immutable
+set search_path = ''
+as $$
+declare
+  ids jsonb := p_answer -> 'optionIds';
+begin
+  if p_answer is null or jsonb_typeof(p_answer) is distinct from 'object' then
+    return false;
+  end if;
+  case p_type
+    when 'quiz', 'poll' then
+      if jsonb_typeof(ids) is distinct from 'array' or jsonb_array_length(ids) = 0 then
+        return false;
+      end if;
+      if p_type = 'poll' and jsonb_array_length(ids) <> 1 then
+        return false;
+      end if;
+      -- every selected id must be a string naming an existing option, no duplicates
+      if exists (select 1 from jsonb_array_elements(ids) e where jsonb_typeof(e) <> 'string') then
+        return false;
+      end if;
+      return coalesce((select count(distinct x) = jsonb_array_length(ids)
+                              and bool_and(exists (select 1 from jsonb_array_elements(p_content -> 'options') o
+                                                    where o ->> 'id' = x))
+                         from jsonb_array_elements_text(ids) x), false);
+    when 'true_false' then
+      return jsonb_typeof(p_answer -> 'value') is not distinct from 'boolean';
+    when 'text' then
+      return jsonb_typeof(p_answer -> 'text') is not distinct from 'string'
+         and coalesce(char_length(p_answer ->> 'text') between 1 and 200, false);
+    else
+      return false;
+  end case;
+end;
+$$;
+
 -- Internal helpers: never callable through the API.
 revoke execute on function public.check_pin_rate_limit(uuid) from public, anon, authenticated;
 -- is_allowed_media_path stays executable: CHECK constraints call it with the caller's rights.

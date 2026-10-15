@@ -45,8 +45,20 @@ export function RedirectIfCreator({ children }: { children: ReactNode }) {
   return children
 }
 
-/** Only allow internal redirects (prevents open-redirect through ?next=). */
+/**
+ * Only allow internal redirects (prevents open-redirect through ?next=).
+ * Browsers read "/\evil.com" like "//evil.com", and react-router's push()
+ * falls back to location.assign() on a cross-origin URL: the path is resolved
+ * against a fixed origin instead of trusting a prefix.
+ */
 // eslint-disable-next-line react-refresh/only-export-components
 export function safeNext(next: string | null, fallback = '/app') {
-  return next && next.startsWith('/') && !next.startsWith('//') ? next : fallback
+  if (!next || !next.startsWith('/') || [...next].some((c) => c === '\\' || c.charCodeAt(0) < 0x20)) return fallback
+  try {
+    const base = 'https://tiltt.invalid'
+    const url = new URL(next, base)
+    return url.origin === base ? `${url.pathname}${url.search}${url.hash}` : fallback
+  } catch {
+    return fallback
+  }
 }
